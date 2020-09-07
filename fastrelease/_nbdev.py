@@ -7,7 +7,7 @@ index = {"GH_HOST": "00_core.ipynb",
          "do_request": "00_core.ipynb",
          "FastRelease": "00_core.ipynb"}
 
-modules = ["release.py"]
+modules = ["core.py"]
 
 doc_url = "https://fastrelease.fast.ai/fastrelease/"
 

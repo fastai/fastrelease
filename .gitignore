@@ -1,10 +1,14 @@
-*.bak
-.gitattributes
-.last_checked
+token
+pythonenv*/
+conda/
+test_settings.ini
 .gitconfig
+*.tgz
+.last_checked
 *.bak
 *.log
 *~
+.pypirc
 ~*
 _tmp*
 tmp*
