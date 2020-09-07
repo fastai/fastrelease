@@ -5,7 +5,7 @@ site_title: fastrelease
 company_name: Jeremy Howard
 description: Simplified releases using GitHub Issues
 # Set to false to disable KaTeX math
-use_math: true
+use_math: false
 # Add Google analytics id if you have one and want to use it here
 google_analytics:
 # See http://nbdev.fast.ai/search for help with adding Search
@@ -26,7 +26,6 @@ exclude: [vendor]
 highlighter: rouge
 markdown: kramdown
 kramdown:
- input: GFM
  auto_ids: true
  hard_wrap: false
  syntax_highlighter: rouge
@@ -59,5 +58,5 @@ defaults:
 sidebars:
 - home_sidebar
 
-theme: jekyll-theme-cayman
-baseurl: /fastrelease/
+baseurl:
+
