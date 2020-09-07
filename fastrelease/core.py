@@ -38,6 +38,10 @@ def _config(cfg_name="settings.ini"):
     config.read(config_file)
     return config['DEFAULT'],cfg_path
 
+def _load_json(cfg, k):
+    try: return json.loads(cfg[k])
+    except json.JSONDecodeError as e: raise Exception(f"Key: `{k}` in .ini file is not a valid JSON string: {e}")
+
 # Cell
 def run_proc(*args):
     res = subprocess.run(args, capture_output=True)
@@ -58,8 +62,10 @@ def do_request(url, post=False, headers=None, **data):
 class FastRelease:
     def __init__(self, owner=None, repo=None, token=None, **groups):
         "Create CHANGELOG.md from GitHub issues"
-        if not groups: groups = dict(breaking="Breaking Changes", enhancement="New Features", bug="Bugs Squashed")
         self.cfg,cfg_path = _config()
+        if not groups:
+            default_groups=dict(breaking="Breaking Changes", enhancement="New Features", bug="Bugs Squashed")
+            groups=_load_json(cfg, 'label_groups') if 'label_groups' in cfg else default_groups
         os.chdir(cfg_path)
         if not owner: owner = self.cfg['user']
         if not repo:  repo  = self.cfg['lib_name']
