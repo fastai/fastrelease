@@ -36,7 +36,7 @@ You'll need to get a GitHub [personal access token](https://docs.github.com/en/g
 
 Then click "Generate Token" at the bottom of the screen, and copy the token (the long string of letters and numbers shown). You can easily do that by clicking the little clipboard icon next to the token.
 
-<img alt="Copying your token" width="743" caption="Copying your token" src="https://docs.fast.ai/images/att_00001.png">
+<img alt="Copying your token" width="743" caption="Copying your token" src="images/att_00001.png">
 
 Paste that token into a file called `token` into the root of your repo. You can run the following in your terminal (`cd` to the root of your repo first) to create that file:
 
