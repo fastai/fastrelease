@@ -11,7 +11,7 @@ index = {"GH_HOST": "00_core.ipynb",
 
 modules = ["core.py"]
 
-doc_url = "https://fastrelease.fast.ai/fastrelease/"
+doc_url = "https://fastrelease.fast.ai/"
 
 git_url = "https://github.com/fastai/fastrelease/tree/master/"
 
