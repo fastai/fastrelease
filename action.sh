@@ -21,8 +21,8 @@ echo "::endgroup::"
 echo "::group::Push Changes To Branch"  
     git config --global user.email "github-actions[bot]@users.noreply.github.com"
     git config --global user.name "github-actions[bot]"
-    git config --global pull.rebase true
-    git config --global rebase.autoStash true
+    git remote remove origin
+    git remote add origin "git@github.com:${GITHUB_REPOSITORY}.git"
     git checkout -B fastrelease-action-changelog
     git add CHANGELOG.md
     git commit -m'Update CHANGELOG.md'
