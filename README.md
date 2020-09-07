@@ -48,7 +48,7 @@ Replace *XXX* above with the token you copied. Also, ensure that this file isn't
 
 ### Creating release notes
 
-Now you're ready to create your release notes. These are created in a file called `CHANGELOG.md`.
+Now you're ready to create your release notes. These are created in a file called `CHANGELOG.md`. Here's an example of what it creates: [nbdev CHANGELOG](https://github.com/fastai/nbdev/blob/master/CHANGELOG.md).
 
 All issues with the label **bug**, **enhancement**, or **breaking** that have been closed in your repo since your last release will be added to the top of this file. If you haven't made any releases before, then all issues with those labels will be included.
 
