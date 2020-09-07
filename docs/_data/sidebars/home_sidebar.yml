@@ -10,7 +10,7 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: Create release notes
+      title: Create software releases
       url: core.html
     output: web
     title: fastrelease

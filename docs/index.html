@@ -1,13 +1,13 @@
 ---
 
-title: Project name here
+title: fastrelease
 
 
 keywords: fastai
 sidebar: home_sidebar
 
-summary: "Summary description here."
-description: "Summary description here."
+summary: "Auto-generated tagged releases, and release notes (from GitHub issues)."
+description: "Auto-generated tagged releases, and release notes (from GitHub issues)."
 nb_path: "index.ipynb"
 ---
 <!--
@@ -31,7 +31,11 @@ nb_path: "index.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This file will become your README and also the index of your documentation.</p>
+<p><code>fastrelease</code> provides two commands that you can run from your shell:</p>
+<ul>
+<li><code>nbdev_changelog</code>: creates a CHANGELOG.md file from closed and labeled GitHub issues</li>
+<li><code>nbdev_tag_release</code>: tags and creates a release in GitHub for the current version.</li>
+</ul>
 
 </div>
 </div>
@@ -44,7 +48,28 @@ nb_path: "index.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><code>pip install your_project_name</code></p>
+<p><code>fastrelease</code> has no prerequisites and will run on Python 3.4 or later. You can install from pip:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>pip install fastrelease</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>...or conda:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><code>conda install -c fastai fastrelease</code></p>
 
 </div>
 </div>
@@ -57,44 +82,84 @@ nb_path: "index.ipynb"
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Fill me in please! Don't forget code examples:</p>
+<h3 id="Set-up">Set up<a class="anchor-link" href="#Set-up"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First, create a <code>settings.ini</code> file with the following contents (replacing the values as described below):</p>
+
+<pre><code>[DEFAULT]
+lib_name = fastrelease
+user = fastai
+version = 0.0.1</code></pre>
+<p>Set <code>lib_name</code> to the name of GitHub repo, <code>user</code> to the owner of that repo, and <code>version</code> to the version number of your library. (Note that if you use <a href="https://nbdev.fast.ai">nbdev</a> then you'll already have this information, so you don't need to do anything further to set it up.)</p>
 
 </div>
 </div>
 </div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You'll need to get a GitHub <a href="https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token">personal access token</a> if you haven't already. To do so, <a href="https://github.com/settings/tokens/new">click here</a> and enter "fastrelease" in the "Note" section, and click the <code>repo</code> checkbox.</p>
+<p>Then click "Generate Token" at the bottom of the screen, and copy the token (the long string of letters and numbers shown). You can easily do that by clicking the little clipboard icon next to the token.</p>
+<p>{% include image.html alt="Copying your token" caption="Copying your token" max-width="743" file="<a href="https://docs.fast.ai/images/att_00001.png">https://docs.fast.ai/images/att_00001.png</a>" %}</p>
+<p>Paste that token into a file called <code>token</code> into the root of your repo. You can run the following in your terminal (<code>cd</code> to the root of your repo first) to create that file:</p>
 
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span>
-</pre></div>
+<pre><code>echo XXX &gt; token
 
-    </div>
-</div>
-</div>
+</code></pre>
+<p>Replace <em>XXX</em> above with the token you copied. Also, ensure that this file isn't added to git, by running this in your terminal:</p>
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>2</pre>
-</div>
-
-</div>
+<pre><code>echo token &gt;&gt; .gitignore</code></pre>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Creating-release-notes">Creating release notes<a class="anchor-link" href="#Creating-release-notes"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now you're ready to create your release notes. These are created in a file called <code>CHANGELOG.md</code>.</p>
+<p>All issues with the label <strong>bug</strong>, <strong>enhancement</strong>, or <strong>breaking</strong> that have been closed in your repo since your last release will be added to the top of this file. If you haven't made any releases before, then all issues with those labels will be included.</p>
+<p>Therefore, before you create or update <code>CHANGELOG.md</code>, go to your GitHub issues page, remove <code>is:open</code> from the filter, and label any issues you want included with one of the labels above. When you've done that, you can create or update your release notes by running in your terminal:</p>
+
+<pre><code>fastrelease_changelog</code></pre>
 
 </div>
-    {% endraw %}
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The titles and bodies of each issue will be added. Open <code>CHANGELOG.md</code> in your editor and make any edits that you want, and then commit the file to your repo (remember to <code>git add</code> it!)</p>
 
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Tagging-a-release">Tagging a release<a class="anchor-link" href="#Tagging-a-release"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>It's important that you now tag a release. This will create a tag in GitHub with your current version number in <code>settings.ini</code>, and will then make it into a release:</p>
+
+<pre><code>fastrelease_release
+
+</code></pre>
+<p>After you run this, be sure to increment your version number in <code>settings.ini</code>. You can either edit it manually, or if you use nbdev it can be done for you by running:</p>
+
+<pre><code>nbdev_bump_version</code></pre>
+
+</div>
+</div>
+</div>
 </div>
  
 
