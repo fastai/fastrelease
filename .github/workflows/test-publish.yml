@@ -15,9 +15,10 @@ jobs:
         pip3 install nbdev
         pip3 install .
         echo "$${{secrets.GITHUB_TOKEN}}" > token
-        # fastrelease_release
     - name: Setup tmate session
       uses: mxschmitt/action-tmate@v2
+      env:
+        ACTIONS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Test Action
       uses: ./action/publish
       with:
