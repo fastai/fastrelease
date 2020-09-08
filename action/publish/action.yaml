@@ -7,25 +7,16 @@ inputs:
 runs:
   using: "composite"
   steps: 
-    - name: Install requirements
-      shell: bash
-      run: |
-        pip install nbdev
-        pip install .
-        echo $${{ inputs.token }} > token
     - name: Cut release
-      shell: bash
-      run: fastrelease_release
-    - name: Bump Version
-      shell: bash
-      run: nbdev_bump_version
+      run: |
+        pip install nbdev fastrelease
+        fastrelease_release --token "${{ inputs.token }}"
     - name: commit settings.ini
       shell: bash
       run: |
+        nbdev_bump_version
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
-        git remote remove origin
-        git remote add origin "git@github.com:${GITHUB_REPOSITORY}.git"
         git add settings.ini
         git commit -m'[bot] bump version'
         git push
