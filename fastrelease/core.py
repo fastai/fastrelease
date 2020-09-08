@@ -134,6 +134,6 @@ def fastrelease_changelog():
 
 # Cell
 @call_parse
-def fastrelease_release():
+def fastrelease_release(token:Param("Optional GitHub token (otherwise `token` file is used)", str)=None):
     "Tag and create a release in GitHub for the current version"
-    FastRelease().release()
+    FastRelease(token=token).release()
