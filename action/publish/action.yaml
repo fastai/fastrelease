@@ -10,7 +10,8 @@ runs:
     - name: Install requirements
       shell: bash
       run: |
-        pip install nbdev fastrelease
+        pip install nbdev
+        pip install .
         echo $${{ inputs.token }} > token
     - name: Cut release
       shell: bash
