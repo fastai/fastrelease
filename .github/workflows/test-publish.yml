@@ -14,7 +14,7 @@ jobs:
       run: |
         pip3 install nbdev
         pip3 install .
-        echo "$${{secrets.GITHUB_TOKEN}}" > token
+        echo "${{secrets.GITHUB_TOKEN}}" > token
     - name: Setup tmate session
       uses: mxschmitt/action-tmate@v2
       env:
