@@ -31,6 +31,6 @@ echo "::group::Push Changes To Branch"
     git push -f --set-upstream origin fastrelease-action-changelog
 echo "::endgroup::"
 
-echo "::group::Open Pull Request"  
+echo "::group::Open Pull Request"
     node /pr.js
 echo "::endgroup::"
