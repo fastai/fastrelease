@@ -45,7 +45,7 @@ def _load_json(cfg, k):
 # Cell
 def run_proc(*args):
     res = subprocess.run(args, capture_output=True)
-    if res.returncode: raise IOError(subprocess.stdout + ";;" + subprocess.stderr)
+    if res.returncode: raise IOError("{} ;; {}").format(res.stdout, res.stderr)
     return res.stdout
 
 # Cell

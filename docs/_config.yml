@@ -58,5 +58,5 @@ defaults:
 sidebars:
 - home_sidebar
 
-baseurl:
+baseurl: /
 
