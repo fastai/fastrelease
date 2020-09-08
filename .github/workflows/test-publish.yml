@@ -5,10 +5,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    - run: |
+        pip install nbdev
+        pip install .
+        echo $${{ secrets.GITHUB_TOKEN  }} > token
     - uses: actions/setup-python@v2
       with:
         python-version: '3.7'
         architecture: 'x64'
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v2
     - name: Test Action
       uses: ./action/publish
       with:
