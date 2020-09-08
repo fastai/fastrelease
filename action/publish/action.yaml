@@ -1,5 +1,9 @@
 name: 'fastrelease-publish'
 description: 'Publish a release to GitHub.'
+inputs:
+  token:
+    description: GitHub Token
+    require: true
 runs:
   using: "composite"
   steps: 
@@ -8,7 +12,9 @@ runs:
       run: |
         pip install nbdev fastrelease
     - name: Cut release
-      run: fastrelease_release
+      run: |
+        echo $${{ inputs.token }} > token
+        fastrelease_release
     - name: Bump Version
       run: nbdev_bump_version
     - name: commit settings.ini
@@ -20,4 +26,3 @@ runs:
         git add settings.ini
         git commit -m'[bot] bump version'
         git push
-
