@@ -9,7 +9,7 @@ octokit.pulls.create({
     owner: `${github_repo[0]}`,
     repo: `${github_repo[1]}`,
     title: '[bot] Update CHANGELOG.md',
-    head: 'fastrelease-action-changelog',
+    head: `${process.env.BRANCH_NAME}`,
     base: 'master',
     body: "This is an automated PR with an update to CHANGELOG.md.  Please edit this file as desired before merging."
 })

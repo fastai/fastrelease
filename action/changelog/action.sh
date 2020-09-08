@@ -19,16 +19,20 @@ echo "::group::Update CHANGELOG.md"
     fastrelease_changelog
 echo "::endgroup::"
 
-echo "::group::Push Changes To Branch"  
+echo "::group::Push Changes To Branch"
+    num_issues=$(node /nissues.js)
+    export BRANCH_NAME="fastrelease-action-changelog-$num_issues"
+    echo "Target branch: $BRANCH_NAME"
+    echo "::set-output name=branch_name::$BRANCH_NAME"
     git config --global user.email "github-actions[bot]@users.noreply.github.com"
     git config --global user.name "github-actions[bot]"
     git config --global user.password "$INPUT_TOKEN"
     git remote remove origin
     git remote add origin "https://github-actions[bot]:$INPUT_TOKEN@github.com/${GITHUB_REPOSITORY}.git"
-    git checkout -B fastrelease-action-changelog
+    git checkout -B $BRANCH_NAME
     git add CHANGELOG.md
     git commit -m'Update CHANGELOG.md'
-    git push -f --set-upstream origin fastrelease-action-changelog
+    git push -f --set-upstream origin $BRANCH_NAME
 echo "::endgroup::"
 
 echo "::group::Open Pull Request"
