@@ -5,17 +5,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.7'
+        architecture: 'x64'
     - name: install deps
       shell: bash
       run: |
         pip3 install nbdev
         pip3 install .
         echo $${{ secrets.GITHUB_TOKEN  }} > token
-      
-    - uses: actions/setup-python@v2
-      with:
-        python-version: '3.7'
-        architecture: 'x64'
     - name: Setup tmate session
       uses: mxschmitt/action-tmate@v2
     - name: Test Action
