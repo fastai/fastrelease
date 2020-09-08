@@ -6,12 +6,8 @@
 
 ### New Features
 
-- Create GitHub Action ([#6](https://api.github.com/repos/fastai/fastrelease/issues/6))
-  - I did as much testing as I could locally, now I need to do the fun
-    part of testing it live.    Once I'm confident it's working, then
-    I can document it    @jph00 ready for review, after this I'll
-    start tweaking it on my own
-
+- Create a GitHub Action For Change Logs ([#6](https://api.github.com/repos/fastai/fastrelease/issues/6))
+  - Creates a GitHub Action that generates a ChangeLog automatically based on Issue and PR Titles.
 
 
 ## 0.0.2
