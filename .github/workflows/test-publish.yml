@@ -6,6 +6,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Test Action
-      run: ./action/publish/
+      run: ./action/publish
       env:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
