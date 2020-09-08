@@ -65,7 +65,7 @@ class FastRelease:
         self.cfg,cfg_path = _config()
         if not groups:
             default_groups=dict(breaking="Breaking Changes", enhancement="New Features", bug="Bugs Squashed")
-            groups=_load_json(cfg, 'label_groups') if 'label_groups' in cfg else default_groups
+            groups=_load_json(self.cfg, 'label_groups') if 'label_groups' in self.cfg else default_groups
         os.chdir(cfg_path)
         if not owner: owner = self.cfg['user']
         if not repo:  repo  = self.cfg['lib_name']
