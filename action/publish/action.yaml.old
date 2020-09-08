@@ -1,5 +1,5 @@
-name: 'fastrelease-changelog'
-description: 'Automatically draft release notes. https://fastrelease.fast.ai/'
+name: 'fastrelease-publish'
+description: 'Publish a release to GitHub.'
 inputs:
   TOKEN:
     description: GitHub Token

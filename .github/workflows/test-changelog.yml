@@ -1,4 +1,4 @@
-name: test-workflow
+name: test-changelog
 on: workflow_dispatch
 jobs:
   build:
