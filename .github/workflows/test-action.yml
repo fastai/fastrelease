@@ -6,6 +6,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Test Action
-      uses: ./
+      uses: ./action/changelog
       with:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
