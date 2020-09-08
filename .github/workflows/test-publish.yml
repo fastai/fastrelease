@@ -5,10 +5,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - run: |
+    - name: install deps
+      shell: bash
+      run: |
         pip install nbdev
         pip install .
         echo $${{ secrets.GITHUB_TOKEN  }} > token
+      
     - uses: actions/setup-python@v2
       with:
         python-version: '3.7'
