@@ -74,7 +74,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="run_proc" class="doc_header"><code>run_proc</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L42" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>run_proc</code>(<strong>*<code>args</code></strong>)</p>
+<h4 id="run_proc" class="doc_header"><code>run_proc</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L46" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>run_proc</code>(<strong>*<code>args</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -105,7 +105,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="do_request" class="doc_header"><code>do_request</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L48" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>do_request</code>(<strong><code>url</code></strong>, <strong><code>post</code></strong>=<em><code>False</code></em>, <strong><code>headers</code></strong>=<em><code>None</code></em>, <strong>**<code>data</code></strong>)</p>
+<h4 id="do_request" class="doc_header"><code>do_request</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L52" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>do_request</code>(<strong><code>url</code></strong>, <strong><code>post</code></strong>=<em><code>False</code></em>, <strong><code>headers</code></strong>=<em><code>None</code></em>, <strong>**<code>data</code></strong>)</p>
 </blockquote>
 <p>Call GET or json-encoded POST on <code>url</code>, depending on <code>post</code></p>
 
@@ -137,7 +137,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="FastRelease" class="doc_header"><code>class</code> <code>FastRelease</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L58" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>FastRelease</code>(<strong><code>owner</code></strong>=<em><code>None</code></em>, <strong><code>repo</code></strong>=<em><code>None</code></em>, <strong><code>token</code></strong>=<em><code>None</code></em>, <strong>**<code>groups</code></strong>)</p>
+<h2 id="FastRelease" class="doc_header"><code>class</code> <code>FastRelease</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L62" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>FastRelease</code>(<strong><code>owner</code></strong>=<em><code>None</code></em>, <strong><code>repo</code></strong>=<em><code>None</code></em>, <strong><code>token</code></strong>=<em><code>None</code></em>, <strong>**<code>groups</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -152,7 +152,25 @@ nb_path: "00_core.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>To create a markdown changelog, first create a <a href="/core.html#FastRelease"><code>FastRelease</code></a> object, passing a mapping from GitHub labels to markdown titles. Put your github token in a file named <code>token</code> at the root of your repo.</p>
+<p>To create a markdown changelog, first create a <a href="/core.html#FastRelease"><code>FastRelease</code></a> object, passing a mapping from GitHub labels to markdown titles. Put your github token in a file named <code>token</code> at the root of your repo.  <a href="/core.html#FastRelease"><code>FastRelease</code></a> attempts to fetch values for arguments from the following locations if not supplied:</p>
+<ul>
+<li><strong>owner:</strong> fetched from the field <code>user</code> in <code>settings.ini</code>.  This is the owner name of the repository on GitHub. For example for the repo <code>fastai/fastcore</code> the owner would be <code>fastai</code>.</li>
+<li><strong>repo:</strong> fetched from the field <code>lib_name</code> in <code>settings.ini</code>.  This is the name of the repository on GitHub.  For example for the repo <code>fastai/fastcore</code> the owner would be <code>fastcore</code>.</li>
+<li><strong>token:</strong> fetched from a file named <code>token</code> at the root of your repo.  Creating a token is discussed in <a href="https://fastrelease.fast.ai/#Set-up">the setup</a> section.</li>
+<li><p><strong>groups:</strong> (optional) fetched from the field <code>label_groups</code> in <code>settings.ini</code>, which is a JSON string.  This is a mapping from label names to titles in your release notes.  For example, this is a valid way of setting your label_groups:</p>
+<div class="highlight"><pre><span></span><span class="n">label_gr</span><span class="p">{</span><span class="s2">&quot;breaking&quot;</span><span class="p">:</span> <span class="s2">&quot;Breaking Changes&quot;</span><span class="p">,</span> 
+   <span class="s2">&quot;enhancement&quot;</span><span class="p">:</span><span class="s2">&quot;New Features&quot;</span><span class="p">,</span> 
+   <span class="s2">&quot;bug&quot;</span><span class="p">:</span><span class="s2">&quot;Bugs Squashed&quot;</span><span class="p">}</span>
+</pre></div>
+</li>
+</ul>
+
+<pre><code>If not specified, this defaults to:
+```python
+{"breaking": "Breaking Changes", 
+ "enhancement":"New Features", 
+ "bug":"Bugs Squashed"}
+```</code></pre>
 
 </div>
 </div>
@@ -168,7 +186,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="FastRelease.changelog" class="doc_header"><code>FastRelease.changelog</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L96" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.changelog</code>(<strong><code>debug</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="FastRelease.changelog" class="doc_header"><code>FastRelease.changelog</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L102" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.changelog</code>(<strong><code>debug</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Create the CHANGELOG.md file, or return the proposed text if <code>debug</code> is <code>True</code></p>
 
@@ -184,7 +202,7 @@ nb_path: "00_core.ipynb"
 
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The default mapping from labels to markdown headings is:</p>
+<p>Fetches relevant pull requests and issues from the GitHub API, and categorizes these entities according to a user-supplied mapping from labels to markdown headings.  The default mapping from labels to markdown headings is:</p>
 <ul>
 <li><strong>breaking</strong>: "Breaking Changes"</li>
 <li><strong>enhancement</strong>: "New Features"</li>
@@ -201,7 +219,8 @@ nb_path: "00_core.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># print(rel.changelog(debug=True))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># rel.changelog()</span>
+<span class="c1"># print(rel.changelog(debug=True))</span>
 </pre></div>
 
     </div>
@@ -222,7 +241,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="FastRelease.release" class="doc_header"><code>FastRelease.release</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L115" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.release</code>()</p>
+<h4 id="FastRelease.release" class="doc_header"><code>FastRelease.release</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L121" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.release</code>()</p>
 </blockquote>
 <p>Tag and create a release in GitHub for the current version</p>
 
@@ -260,7 +279,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="FastRelease.latest_release" class="doc_header"><code>FastRelease.latest_release</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L92" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.latest_release</code>()</p>
+<h4 id="FastRelease.latest_release" class="doc_header"><code>FastRelease.latest_release</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L98" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.latest_release</code>()</p>
 </blockquote>
 <p>Tag for the latest release</p>
 
@@ -285,7 +304,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="FastRelease.gh" class="doc_header"><code>FastRelease.gh</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L73" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.gh</code>(<strong><code>path</code></strong>, <strong><code>complete</code></strong>=<em><code>False</code></em>, <strong><code>post</code></strong>=<em><code>False</code></em>, <strong>**<code>data</code></strong>)</p>
+<h4 id="FastRelease.gh" class="doc_header"><code>FastRelease.gh</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L79" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.gh</code>(<strong><code>path</code></strong>, <strong><code>complete</code></strong>=<em><code>False</code></em>, <strong><code>post</code></strong>=<em><code>False</code></em>, <strong>**<code>data</code></strong>)</p>
 </blockquote>
 <p>Call GitHub API <code>path</code></p>
 
@@ -323,7 +342,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="fastrelease_changelog" class="doc_header"><code>fastrelease_changelog</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L124" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fastrelease_changelog</code>()</p>
+<h4 id="fastrelease_changelog" class="doc_header"><code>fastrelease_changelog</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L130" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fastrelease_changelog</code>()</p>
 </blockquote>
 <p>Create a CHANGELOG.md file from closed and labeled GitHub issues</p>
 
@@ -355,7 +374,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="fastrelease_release" class="doc_header"><code>fastrelease_release</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L130" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fastrelease_release</code>()</p>
+<h4 id="fastrelease_release" class="doc_header"><code>fastrelease_release</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L136" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fastrelease_release</code>(<strong><code>token</code></strong>:<code>Param object at 0x7ff30c3d6b10&gt;</code>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Tag and create a release in GitHub for the current version</p>
 
