@@ -10,7 +10,7 @@ You can use this action as follows:
 
 ```yaml
 name: test-publish
-on: workflow_dispatch
+on: workflow_dispatch #TODO see event after automated pull request is merged and change this
 jobs:
   build:
     runs-on: ubuntu-latest
