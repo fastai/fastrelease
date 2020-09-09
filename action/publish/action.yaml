@@ -8,6 +8,7 @@ runs:
   using: "composite"
   steps: 
     - name: Cut release
+      shell: bash
       run: |
         pip install nbdev fastrelease
         fastrelease_release --token "${{ inputs.token }}"
