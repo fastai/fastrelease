@@ -12,12 +12,12 @@ runs:
       run: |
         pip install nbdev fastrelease
         fastrelease_release --token "${{ inputs.token }}"
-    - name: commit settings.ini
+    - name: bump version
       shell: bash
       run: |
         nbdev_bump_version
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git config --global user.name "github-actions[bot]"
-        git add settings.ini
+        git add -A
         git commit -m'[bot] bump version'
         git push
