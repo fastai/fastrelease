@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Update CHANGELOG.md
-      uses: ./action/changelog
+      uses: fastai/fastrelease/action/changelog@master
       with:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -42,7 +42,7 @@ jobs:
       with:
         python-version: '3.7'
         architecture: 'x64'
-    - uses: ./action/publish
+    - uses: fastai/fastrelease/action/publish@master
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
 ```
