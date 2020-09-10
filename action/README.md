@@ -1,11 +1,11 @@
 # Instructions
 
-**To automate releases with GitHub Actions, you will have to add the two workflows shown below to the `.github/workflows` directory of your repository.**  For purposes of this example, we can call these two workflow files `changelog.yaml` and `publish.yaml`, respectively.
+**To automate releases with GitHub Actions, you will have to add the two workflows shown below to the `.github/workflows` directory of your repository.**  For purposes of this example, we can call these two workflow files `changelog.yml` and `publish.yml`, respectively.
 
-The first workflow, `changelog.yaml` is triggered by a `workflow_dispatch` event, which allows you to trigger this workflow manually from the Actions tab of your repository.  This workflow queries PRs and Issue titles associated with your repository and uses this to create a PR with suggested changes to your `CHANGELOG.md` file at the root of your repository.
+The first workflow, `changelog.yml` is triggered by a `workflow_dispatch` event, which allows you to trigger this workflow manually from the Actions tab of your repository.  This workflow queries PRs and Issue titles associated with your repository and uses this to create a PR with suggested changes to your `CHANGELOG.md` file at the root of your repository.
 
 ```yaml
-#.github/workflows/changelog.yaml
+#.github/workflows/changelog.yml
 name: changelog
 on: workflow_dispatch
 jobs:
@@ -19,14 +19,14 @@ jobs:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-The second workflow, `publish.yaml`, will automatically be triggered when a pull request opened by the first workflow is merged into master. This workflow preforms the following steps:
+The second workflow, `publish.yml`, will automatically be triggered when a pull request opened by the first workflow is merged into master. This workflow preforms the following steps:
 
 1.  Generates a new tag based on the version number in `settings.ini` file in the root of your repo.
 2.  Uploads this tagged release to GitHub.
 3.  Bumps the version number in `settings.ini` and commits that to GitHub.
 
 ```yaml
-#.github/workflows/publish.yaml
+#.github/workflows/publish.yml
 name: publish release
 on: 
   push:
