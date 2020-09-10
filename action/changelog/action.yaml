@@ -1,0 +1,12 @@
+name: 'fastrelease-changelog'
+description: 'Automatically draft release notes. https://fastrelease.fast.ai/'
+inputs:
+  TOKEN:
+    description: GitHub Token
+    require: true
+branding:
+  color: 'gray-dark'
+  icon: 'package'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

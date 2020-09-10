@@ -1,0 +1,12 @@
+name: 'fastrelease-publish'
+description: 'Publish a release to GitHub.'
+inputs:
+  TOKEN:
+    description: GitHub Token
+    require: true
+branding:
+  color: 'gray-dark'
+  icon: 'package'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

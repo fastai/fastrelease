@@ -1,0 +1,14 @@
+FROM fastai/nbdev
+RUN pip3 install fastrelease
+ENV HOME /root
+ENV CONDA_DEFAULT_ENV base
+ENV CONDA_NAME miniconda3
+ENV CONDA_PATH $HOME/$CONDA_NAME
+ENV CONDA_PREFIX $CONDA_PATH
+ENV CONDA_BIN $CONDA_PREFIX/bin
+ENV PATH $CONDA_BIN:$PATH
+ENV CONDA_EXE $CONDA_BIN/conda
+ENV CONDA_PYTHON_EXE $CONDA_BIN/pyt
+COPY action.sh /
+RUN chmod u+x /action.sh
+ENTRYPOINT [ "/action.sh" ]
