@@ -1,6 +1,6 @@
 # Instructions
 
-**To automate releases with GitHub Actions, you will have to add two workflows shown below to the `.github/workflows` directory of your repository.**  For purposes of this example, we can call these two workflow files `changelog.yaml` and `publish.yaml`, respectively.
+**To automate releases with GitHub Actions, you will have to add the two workflows shown below to the `.github/workflows` directory of your repository.**  For purposes of this example, we can call these two workflow files `changelog.yaml` and `publish.yaml`, respectively.
 
 The first workflow, `changelog.yaml` is triggered by a `workflow_dispatch` event, which allows you to trigger this workflow manually from the Actions tab of your repository.  This workflow queries PRs and Issue titles associated with your repository and uses this to create a PR with suggested changes to your `CHANGELOG.md` file at the root of your repository.
 
