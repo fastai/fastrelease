@@ -2,21 +2,14 @@ name: test-publish
 on: push
 jobs:
   build:
-    # if: github.event.head_commit.username == "github-actions[bot]" && contains(github.event.head_commit.message, "[bot] Update CHANGELOG.md")
+    if: github.event.head_commit.author.username == "github-actions[bot]" && contains(github.event.head_commit.message, "Update CHANGELOG.md")
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo $head_commit
-          echo $username
-          echo $msg
-        env:
-          username: ${{ toJSON(github.event.head_commit.username) }}
-          msg: ${{ toJSON(github.event.head_commit.message) }}
-    # - uses: actions/checkout@v2
-    # - uses: actions/setup-python@v2
-    #   with:
-    #     python-version: '3.7'
-    #     architecture: 'x64'
-    # - uses: ./action/publish
-    #   with:
-    #     token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: '3.7'
+        architecture: 'x64'
+    - uses: ./action/publish
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
