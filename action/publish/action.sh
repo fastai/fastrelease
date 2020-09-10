@@ -26,6 +26,6 @@ echo "::group::Publish Release"
 echo "::endgroup::"
 
 echo "::group::Bump Version"
-    nbdev_bump_version
+    make release
     git add settings.ini && git push
 echo "::endgroup::"
