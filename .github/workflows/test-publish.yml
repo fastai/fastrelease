@@ -1,4 +1,4 @@
-name: test-publish
+name: publish
 on: push
 jobs:
   build:
