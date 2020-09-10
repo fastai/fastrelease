@@ -2,6 +2,12 @@
 
 <!-- do not remove -->
 
+## 0.0.6
+
+This is a test
+
+
+
 ## 0.0.3
 
 ### New Features
