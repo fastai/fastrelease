@@ -2,7 +2,7 @@ name: test-publish
 on: push
 jobs:
   build:
-    if: github.event.head_commit.username == "github-actions[bot]" && contains(github.event.head_commit.message, "[bot] Update CHANGELOG.md")
+    if: (github.event.head_commit.username == 'github-actions[bot]') && contains(github.event.head_commit.message, '[bot] Update CHANGELOG.md')
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
