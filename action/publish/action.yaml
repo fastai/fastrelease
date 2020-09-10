@@ -21,10 +21,3 @@ runs:
         git add -A
         git commit -m'[bot] bump version'
         git push
-    - name: upload to pypi
-      run: |
-        python setup.py sdist bdist_wheel
-        twine upload --repository pypi dist/*
-      env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USER }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASS }}
