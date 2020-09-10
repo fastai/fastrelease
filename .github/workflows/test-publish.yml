@@ -10,9 +10,8 @@ jobs:
           echo $username
           echo $msg
         env:
-          head_commit: toJson(${{ github.event.head_commit }})
-          username: toJson(${{ github.event.head_commit.username }})
-          msg: toJson(${{github.event.head_commit.message}})
+          username: ${{ toJSON(github.event.head_commit.username) }}
+          msg: ${{ toJSON(github.event.head_commit.message) }}
     # - uses: actions/checkout@v2
     # - uses: actions/setup-python@v2
     #   with:
