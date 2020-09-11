@@ -7,6 +7,8 @@
 - `nbdev_changelog`: creates a CHANGELOG.md file from closed and labeled GitHub issues
 - `nbdev_tag_release`: tags and creates a release in GitHub for the current version.
 
+Be sure to check out the full documentation at [fastrelease.fast.ai](https://fastrelease.fast.ai/).
+
 ## Install
 
 `fastrelease` has no prerequisites and will run on Python 3.4 or later. You can install from pip:
