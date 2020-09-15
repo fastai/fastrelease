@@ -9,6 +9,11 @@
 
 Be sure to check out the full documentation at [fastrelease.fast.ai](https://fastrelease.fast.ai/).
 
+![](images/intro.svg)
+![](images/intro.svgz)
+<img src="images/intro.svg" />
+<img src="images/intro.svgz" />
+
 ## Install
 
 `fastrelease` has only one small prerequisite (`fastcore`) and will run on Python 3.6 or later. You can install from pip:
