@@ -9,10 +9,7 @@
 
 Be sure to check out the full documentation at [fastrelease.fast.ai](https://fastrelease.fast.ai/).
 
-![](images/intro.svg)
-![](images/intro.svgz)
-<img src="images/intro.svg" />
-<img src="images/intro.svgz" />
+<img src="images/intro.svg" style="max-width: 100rem" />
 
 ## Install
 
