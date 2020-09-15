@@ -2,12 +2,18 @@
 
 <!-- do not remove -->
 
+## 0.0.8
+
+### New Features
+
+- new CLI: `fastrelease` for doing both changelog and release ([#27](https://github.com/fastai/fastrelease/issues/27))
+- move conda packager from `nbdev` ([#23](https://github.com/fastai/fastrelease/issues/23))
+
 ## 0.0.7
 
 ### New Features
 
 - add latest release notes to release body ([#25](https://github.com/fastai/fastrelease/issues/25))
-
 - add `debug` flag to `fastrelease_changelog` ([#24](https://github.com/fastai/fastrelease/issues/24))
 
 ### Bugs Squashed
@@ -20,7 +26,6 @@
 
 - Create a GitHub Action For Change Logs ([#6](https://github.com/fastai/fastrelease/issues/6))
   - Creates a GitHub Action that generates a ChangeLog automatically based on Issue and PR Titles.
-
 
 ## 0.0.2
 
