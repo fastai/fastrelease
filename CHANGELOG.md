@@ -2,12 +2,6 @@
 
 <!-- do not remove -->
 
-## 0.0.9
-
-### Bugs Squashed
-
-- Testing for screencast, with an edit ([#28](https://github.com/fastai/fastrelease/issues/28))
-
 ## 0.0.8
 
 ### New Features
