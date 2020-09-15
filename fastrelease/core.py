@@ -115,7 +115,7 @@ class FastRelease:
 
 # Cell
 @call_parse
-def fastrelease_changelog(debug:Param("Print info to be added to CHANGELOG, instead of updating file")):
+def fastrelease_changelog(debug:Param("Print info to be added to CHANGELOG, instead of updating file", bool_arg)=False):
     "Create a CHANGELOG.md file from closed and labeled GitHub issues"
     FastRelease().changelog(debug=debug)
 
