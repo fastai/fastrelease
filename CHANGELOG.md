@@ -2,6 +2,18 @@
 
 <!-- do not remove -->
 
+## 0.0.7
+
+### New Features
+
+- add latest release notes to release body ([#25](https://github.com/fastai/fastrelease/issues/25))
+
+- add `debug` flag to `fastrelease_changelog` ([#24](https://github.com/fastai/fastrelease/issues/24))
+
+### Bugs Squashed
+
+- fastrelease_changelog `debug` param not optional ([#26](https://github.com/fastai/fastrelease/issues/26))
+
 ## 0.0.3
 
 ### New Features

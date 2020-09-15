@@ -47,7 +47,7 @@ class FastRelease:
     def __init__(self, owner=None, repo=None, token=None, **groups):
         "Create CHANGELOG.md from GitHub issues"
         self.cfg,cfg_path = find_config()
-        self.changelog = cfg_path/'CHANGELOG.md'
+        self.changefile = cfg_path/'CHANGELOG.md'
         if not groups:
             default_groups=dict(breaking="Breaking Changes", enhancement="New Features", bug="Bugs Squashed")
             groups=_load_json(self.cfg, 'label_groups') if 'label_groups' in self.cfg else default_groups
@@ -81,7 +81,7 @@ class FastRelease:
 
     def changelog(self, debug=False):
         "Create the CHANGELOG.md file, or return the proposed text if `debug` is `True`"
-        if not self.changelog.exists(): self.changelog.write_text("# Release notes\n\n<!-- do not remove -->\n")
+        if not self.changefile.exists(): self.changefile.write_text("# Release notes\n\n<!-- do not remove -->\n")
         marker = '<!-- do not remove -->\n'
         try:
             latest = self._latest_release()
@@ -92,9 +92,9 @@ class FastRelease:
         issues = self._issue_groups()
         res += '\n'.join(_issues_txt(*o) for o in zip(issues, self.groups.values()))
         if debug: return res
-        res = self.changelog.read_text().replace(marker, marker+res+"\n")
-        shutil.copy(self.changelog, self.changelog.with_suffix(".bak"))
-        self.changelog.write_text(res)
+        res = self.changefile.read_text().replace(marker, marker+res+"\n")
+        shutil.copy(self.changefile, self.changefile.with_suffix(".bak"))
+        self.changefile.write_text(res)
 
     def release(self):
         "Tag and create a release in GitHub for the current version"
@@ -108,8 +108,8 @@ class FastRelease:
 
     def latest_notes():
         "Latest CHANGELOG entry"
-        if not self.changelog.exists(): return ''
-        its = re.split(r'^## ', self.changelog.read_text(), flags=re.MULTILINE)
+        if not self.changefile.exists(): return ''
+        its = re.split(r'^## ', self.changefile.read_text(), flags=re.MULTILINE)
         if not len(its)>0: return ''
         return its[1].strip()
 
