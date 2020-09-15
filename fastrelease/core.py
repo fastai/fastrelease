@@ -106,7 +106,7 @@ class FastRelease:
         if not notes.startswith(ver): notes = ''
         self.gh("releases", post=True, tag_name=ver, name=ver, body=notes)
 
-    def latest_notes():
+    def latest_notes(self):
         "Latest CHANGELOG entry"
         if not self.changefile.exists(): return ''
         its = re.split(r'^## ', self.changefile.read_text(), flags=re.MULTILINE)
