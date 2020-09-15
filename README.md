@@ -69,3 +69,4 @@ It's important that you now tag a release. This will create a tag in GitHub with
 After you run this, be sure to increment your version number in `settings.ini`. You can either edit it manually, or if you use nbdev it can be done for you by running:
 
     nbdev_bump_version
+

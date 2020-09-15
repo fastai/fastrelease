@@ -105,6 +105,7 @@ class FastRelease:
         notes = self.latest_notes()
         if not notes.startswith(ver): notes = ''
         self.gh("releases", post=True, tag_name=ver, name=ver, body=notes)
+        return ver
 
     def latest_notes(self):
         "Latest CHANGELOG entry"
@@ -123,7 +124,8 @@ def fastrelease_changelog(debug:Param("Print info to be added to CHANGELOG, inst
 @call_parse
 def fastrelease_release(token:Param("Optional GitHub token (otherwise `token` file is used)", str)=None):
     "Tag and create a release in GitHub for the current version"
-    FastRelease(token=token).release()
+    ver = FastRelease(token=token).release()
+    print(f"Released {ver}")
 
 # Cell
 @call_parse
@@ -133,7 +135,8 @@ def fastrelease(debug:Param("Print info to be added to CHANGELOG, instead of upd
     cfg,cfg_path = find_config()
     FastRelease().changelog(debug=debug)
     subprocess.run([os.environ.get('EDITOR','nano'), cfg_path/'CHANGELOG.md'])
-    if not input("Make release now? (y/n) ").lower().startswith('y'): return
+    if not input("Make release now? (y/n) ").lower().startswith('y'): sys.exit(1)
     run_proc('git', 'commit', '-am', 'release')
     run_proc('git', 'push')
-    FastRelease(token=token).release()
+    ver = FastRelease(token=token).release()
+    print(f"Released {ver}")
