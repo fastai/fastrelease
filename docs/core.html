@@ -50,19 +50,6 @@ nb_path: "00_core.ipynb"
 </div>
     {% endraw %}
 
-<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Helper-functions">Helper functions<a class="anchor-link" href="#Helper-functions"> </a></h2>
-</div>
-</div>
-</div>
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-</div>
-    {% endraw %}
-
     {% raw %}
     
 <div class="cell border-box-sizing code_cell rendered">
@@ -74,7 +61,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="run_proc" class="doc_header"><code>run_proc</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L46" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>run_proc</code>(<strong>*<code>args</code></strong>)</p>
+<h4 id="find_config" class="doc_header"><code>find_config</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L20" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>find_config</code>(<strong><code>cfg_name</code></strong>=<em><code>'settings.ini'</code></em>)</p>
 </blockquote>
 
 </div>
@@ -98,31 +85,6 @@ nb_path: "00_core.ipynb"
     
 <div class="cell border-box-sizing code_cell rendered">
 
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="do_request" class="doc_header"><code>do_request</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L52" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>do_request</code>(<strong><code>url</code></strong>, <strong><code>post</code></strong>=<em><code>False</code></em>, <strong><code>headers</code></strong>=<em><code>None</code></em>, <strong>**<code>data</code></strong>)</p>
-</blockquote>
-<p>Call GET or json-encoded POST on <code>url</code>, depending on <code>post</code></p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
 </div>
     {% endraw %}
 
@@ -137,7 +99,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h2 id="FastRelease" class="doc_header"><code>class</code> <code>FastRelease</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L62" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>FastRelease</code>(<strong><code>owner</code></strong>=<em><code>None</code></em>, <strong><code>repo</code></strong>=<em><code>None</code></em>, <strong><code>token</code></strong>=<em><code>None</code></em>, <strong>**<code>groups</code></strong>)</p>
+<h2 id="FastRelease" class="doc_header"><code>class</code> <code>FastRelease</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L46" class="source_link" style="float:right">[source]</a></h2><blockquote><p><code>FastRelease</code>(<strong><code>owner</code></strong>=<em><code>None</code></em>, <strong><code>repo</code></strong>=<em><code>None</code></em>, <strong><code>token</code></strong>=<em><code>None</code></em>, <strong>**<code>groups</code></strong>)</p>
 </blockquote>
 
 </div>
@@ -186,7 +148,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="FastRelease.changelog" class="doc_header"><code>FastRelease.changelog</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L102" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.changelog</code>(<strong><code>debug</code></strong>=<em><code>False</code></em>)</p>
+<h4 id="FastRelease.changelog" class="doc_header"><code>FastRelease.changelog</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L82" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.changelog</code>(<strong><code>debug</code></strong>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Create the CHANGELOG.md file, or return the proposed text if <code>debug</code> is <code>True</code></p>
 
@@ -219,8 +181,8 @@ nb_path: "00_core.ipynb"
 
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># rel.changelog()</span>
-<span class="c1"># print(rel.changelog(debug=True))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># print(rel.changelog(debug=True))</span>
+<span class="c1"># rel.changelog()</span>
 </pre></div>
 
     </div>
@@ -241,7 +203,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="FastRelease.release" class="doc_header"><code>FastRelease.release</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L121" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.release</code>()</p>
+<h4 id="FastRelease.release" class="doc_header"><code>FastRelease.release</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L99" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.release</code>()</p>
 </blockquote>
 <p>Tag and create a release in GitHub for the current version</p>
 
@@ -279,32 +241,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="FastRelease.latest_release" class="doc_header"><code>FastRelease.latest_release</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L98" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.latest_release</code>()</p>
-</blockquote>
-<p>Tag for the latest release</p>
-
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-    {% endraw %}
-
-    {% raw %}
-    
-<div class="cell border-box-sizing code_cell rendered">
-
-<div class="output_wrapper">
-<div class="output">
-
-<div class="output_area">
-
-
-<div class="output_markdown rendered_html output_subarea ">
-<h4 id="FastRelease.gh" class="doc_header"><code>FastRelease.gh</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L79" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.gh</code>(<strong><code>path</code></strong>, <strong><code>complete</code></strong>=<em><code>False</code></em>, <strong><code>post</code></strong>=<em><code>False</code></em>, <strong>**<code>data</code></strong>)</p>
+<h4 id="FastRelease.gh" class="doc_header"><code>FastRelease.gh</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L63" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>FastRelease.gh</code>(<strong><code>path</code></strong>, <strong><code>complete</code></strong>=<em><code>False</code></em>, <strong><code>post</code></strong>=<em><code>False</code></em>, <strong>**<code>data</code></strong>)</p>
 </blockquote>
 <p>Call GitHub API <code>path</code></p>
 
@@ -342,7 +279,7 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="fastrelease_changelog" class="doc_header"><code>fastrelease_changelog</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L130" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fastrelease_changelog</code>()</p>
+<h4 id="fastrelease_changelog" class="doc_header"><code>fastrelease_changelog</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L118" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fastrelease_changelog</code>(<strong><code>debug</code></strong>:<code>Param object at 0x7f13b2fdc190&gt;</code>=<em><code>False</code></em>)</p>
 </blockquote>
 <p>Create a CHANGELOG.md file from closed and labeled GitHub issues</p>
 
@@ -374,9 +311,41 @@ nb_path: "00_core.ipynb"
 
 
 <div class="output_markdown rendered_html output_subarea ">
-<h4 id="fastrelease_release" class="doc_header"><code>fastrelease_release</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L136" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fastrelease_release</code>(<strong><code>token</code></strong>:<code>Param object at 0x7ff30c3d6b10&gt;</code>=<em><code>None</code></em>)</p>
+<h4 id="fastrelease_release" class="doc_header"><code>fastrelease_release</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L124" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fastrelease_release</code>(<strong><code>token</code></strong>:<code>Param object at 0x7f13b2fdcc10&gt;</code>=<em><code>None</code></em>)</p>
 </blockquote>
 <p>Tag and create a release in GitHub for the current version</p>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    {% endraw %}
+
+    {% raw %}
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_markdown rendered_html output_subarea ">
+<h4 id="fastrelease" class="doc_header"><code>fastrelease</code><a href="https://github.com/fastai/fastrelease/tree/master/fastrelease/core.py#L131" class="source_link" style="float:right">[source]</a></h4><blockquote><p><code>fastrelease</code>(<strong><code>debug</code></strong>:<code>Param object at 0x7f13b2fdcb10&gt;</code>=<em><code>False</code></em>, <strong><code>token</code></strong>:<code>Param object at 0x7f13b2fdcbd0&gt;</code>=<em><code>None</code></em>)</p>
+</blockquote>
+<p>Calls <a href="/core.html#fastrelease_changelog"><code>fastrelease_changelog</code></a>, lets you edit the result, then pushes to git and calls <a href="/core.html#fastrelease_release"><code>fastrelease_release</code></a></p>
 
 </div>
 

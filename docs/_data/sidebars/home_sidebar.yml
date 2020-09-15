@@ -12,6 +12,9 @@ entries:
     - output: web,pdf
       title: Create software releases
       url: core.html
+    - output: web,pdf
+      title: Create conda packages
+      url: conda.html
     output: web
     title: fastrelease
   output: web

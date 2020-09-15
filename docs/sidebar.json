@@ -1,6 +1,7 @@
 {
   "fastrelease": {
     "Overview": "/",
-    "Create software releases": "core.html"
+    "Create software releases": "core.html",
+    "Create conda packages": "conda.html"
   }
 }
