@@ -2,12 +2,6 @@
 
 <!-- do not remove -->
 
-## 0.0.9
-
-### Bugs Squashed
-
-- Just testing - we can edit this if needed ([#29](https://github.com/fastai/fastrelease/issues/29))
-
 ## 0.0.8
 
 ### New Features
@@ -44,5 +38,3 @@
 ### New Features
 
 - Standalone repo with no external dependencies ([#1](https://github.com/fastai/fastrelease/issues/1))
-
-
