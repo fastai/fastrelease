@@ -28,7 +28,7 @@ def find_config(cfg_name="settings.ini"):
 
 # Cell
 def _issue_txt(issue):
-    res = '- {} ([#{}]({}))\n'.format(issue["title"].strip(), issue["number"], issue["url"])
+    res = '- {} ([#{}]({}))\n'.format(issue["title"].strip(), issue["number"], issue["html_url"])
     body = issue['body']
     if not body: return res
     return res + fill(body.strip(), initial_indent="  - ", subsequent_indent="    ") + "\n"
@@ -47,6 +47,7 @@ class FastRelease:
     def __init__(self, owner=None, repo=None, token=None, **groups):
         "Create CHANGELOG.md from GitHub issues"
         self.cfg,cfg_path = find_config()
+        self.changelog = cfg_path/'CHANGELOG.md'
         if not groups:
             default_groups=dict(breaking="Breaking Changes", enhancement="New Features", bug="Bugs Squashed")
             groups=_load_json(self.cfg, 'label_groups') if 'label_groups' in self.cfg else default_groups
@@ -55,9 +56,8 @@ class FastRelease:
         if not repo:  repo  = self.cfg['lib_name']
         if not token:
             assert Path('token').exists, "Failed to find token"
-            token = Path('token').read_text().strip()
-        self.owner,self.repo,self.token,self.groups = owner,repo,token,groups
-        self.headers = { 'Authorization' : 'token ' + token }
+            self.headers = { 'Authorization' : 'token ' + Path('token').read_text().strip() }
+        self.owner,self.repo,self.groups = owner,repo,groups
         self.repo_url = f"{GH_HOST}/repos/{owner}/{repo}"
 
     def gh(self, path, complete=False, post=False, **data):
@@ -76,21 +76,15 @@ class FastRelease:
         return self.gh("issues", state='closed', sort='created', filter='all',
                        since=self.commit_date, labels=label)
 
-    def _issue_groups(self):
-        with ProcessPoolExecutor() as ex: return ex.map(self._issues, self.groups.keys())
-
-    def latest_release(self):
-        "Tag for the latest release"
-        return self.gh("releases/latest")["tag_name"]
+    def _issue_groups(self): return parallel(self._issues, self.groups.keys())
+    def _latest_release(self): return self.gh("releases/latest")["tag_name"]
 
     def changelog(self, debug=False):
         "Create the CHANGELOG.md file, or return the proposed text if `debug` is `True`"
-        fn = Path('CHANGELOG.md')
-        if not fn.exists(): fn.write_text("# Release notes\n\n<!-- do not remove -->\n")
-        txt = fn.read_text()
+        if not self.changelog.exists(): self.changelog.write_text("# Release notes\n\n<!-- do not remove -->\n")
         marker = '<!-- do not remove -->\n'
         try:
-            latest = self.latest_release()
+            latest = self._latest_release()
             self._tag_date(latest)
         except HTTPError: # no prior releases
             self.commit_date = '2000-01-01T00:00:004Z'
@@ -98,9 +92,9 @@ class FastRelease:
         issues = self._issue_groups()
         res += '\n'.join(_issues_txt(*o) for o in zip(issues, self.groups.values()))
         if debug: return res
-        res = txt.replace(marker, marker+res+"\n")
-        shutil.copy(fn, fn.with_suffix(".bak"))
-        Path(fn).write_text(res)
+        res = self.changelog.read_text().replace(marker, marker+res+"\n")
+        shutil.copy(self.changelog, self.changelog.with_suffix(".bak"))
+        self.changelog.write_text(res)
 
     def release(self):
         "Tag and create a release in GitHub for the current version"
@@ -108,7 +102,16 @@ class FastRelease:
         run_proc('git', 'tag', ver)
         run_proc('git', 'push', '--tags')
         run_proc('git', 'pull', '--tags')
-        self.gh("releases", post=True, tag_name=ver, name=ver, body=ver)
+        notes = self.latest_notes()
+        if not notes.startswith(ver): notes = ''
+        self.gh("releases", post=True, tag_name=ver, name=ver, body=notes)
+
+    def latest_notes():
+        "Latest CHANGELOG entry"
+        if not self.changelog.exists(): return ''
+        its = re.split(r'^## ', self.changelog.read_text(), flags=re.MULTILINE)
+        if not len(its)>0: return ''
+        return its[1].strip()
 
 # Cell
 @call_parse
