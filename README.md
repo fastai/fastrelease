@@ -7,9 +7,9 @@
 - `nbdev_changelog`: creates a CHANGELOG.md file from closed and labeled GitHub issues
 - `nbdev_tag_release`: tags and creates a release in GitHub for the current version.
 
-Be sure to check out the full documentation at [fastrelease.fast.ai](https://fastrelease.fast.ai/).
+Be sure to check out the full documentation at [fastrelease.fast.ai](https://fastrelease.fast.ai/). Here's a brief demonstration of how to use `fastrelease`. This demo first creates an issue using the [`gh`](https://cli.github.com/) command line tool, and then closes it using `git`; you can also use GitHub's web interface for both of these tasks.
 
-<img src="images/intro.svg" />
+<a href="images/intro.svg"><img src="images/intro.svg" width="900px" /></a>
 
 ## Install
 
@@ -64,10 +64,20 @@ The titles and bodies of each issue will be added. Open `CHANGELOG.md` in your e
 
 ### Tagging a release
 
-It's important that you now tag a release. This will create a tag in GitHub with your current version number in `settings.ini`, and will then make it into a release:
+You should now tag a release. This will create a tag in GitHub with your current version number in `settings.ini`, and will then make it into a release, using your latest release notes as the description of the release:
 
     fastrelease_release
 
 After you run this, be sure to increment your version number in `settings.ini`. You can either edit it manually, or if you use nbdev it can be done for you by running:
 
     nbdev_bump_version
+
+### Doing both (creating release notes, and tagging a release)
+
+To complete both of the steps above, run:
+
+```
+fastrelease
+```
+
+See the screencast above for a demonstration of this.

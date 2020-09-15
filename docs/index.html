@@ -36,7 +36,8 @@ nb_path: "index.ipynb"
 <li><code>nbdev_changelog</code>: creates a CHANGELOG.md file from closed and labeled GitHub issues</li>
 <li><code>nbdev_tag_release</code>: tags and creates a release in GitHub for the current version.</li>
 </ul>
-<p>Be sure to check out the full documentation at <a href="https://fastrelease.fast.ai/">fastrelease.fast.ai</a>.</p>
+<p>Be sure to check out the full documentation at <a href="https://fastrelease.fast.ai/">fastrelease.fast.ai</a>. Here's a brief demonstration of how to use <a href="/core.html#fastrelease"><code>fastrelease</code></a>. This demo first creates an issue using the <code>gh</code> command line tool, and then closes it using <code>git</code>; you can also use GitHub's web interface for both of these tasks.</p>
+<p><a href="images/intro.svg"><img src="images/intro.svg" width="900px" /></a></p>
 
 </div>
 </div>
@@ -127,7 +128,7 @@ version = 0.0.1</code></pre>
 </div>
 <div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>It's important that you now tag a release. This will create a tag in GitHub with your current version number in <code>settings.ini</code>, and will then make it into a release:</p>
+<p>You should now tag a release. This will create a tag in GitHub with your current version number in <code>settings.ini</code>, and will then make it into a release, using your latest release notes as the description of the release:</p>
 
 <pre><code>fastrelease_release
 
@@ -135,6 +136,22 @@ version = 0.0.1</code></pre>
 <p>After you run this, be sure to increment your version number in <code>settings.ini</code>. You can either edit it manually, or if you use nbdev it can be done for you by running:</p>
 
 <pre><code>nbdev_bump_version</code></pre>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Doing-both-(creating-release-notes,-and-tagging-a-release)">Doing both (creating release notes, and tagging a release)<a class="anchor-link" href="#Doing-both-(creating-release-notes,-and-tagging-a-release)"> </a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>To complete both of the steps above, run:</p>
+
+<pre><code>fastrelease</code></pre>
+<p>See the screencast above for a demonstration of this.</p>
 
 </div>
 </div>
