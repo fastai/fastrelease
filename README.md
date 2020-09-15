@@ -11,7 +11,7 @@ Be sure to check out the full documentation at [fastrelease.fast.ai](https://fas
 
 ## Install
 
-`fastrelease` has no prerequisites and will run on Python 3.4 or later. You can install from pip:
+`fastrelease` has only one small prerequisite (`fastcore`) and will run on Python 3.6 or later. You can install from pip:
 
 `pip install fastrelease`
 
