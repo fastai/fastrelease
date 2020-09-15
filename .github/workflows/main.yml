@@ -4,13 +4,10 @@ jobs:
   debug:
     runs-on: ubuntu-latest
     steps:
-
     - name: see payload
-      run: |
-        echo "$PAYLOAD"
+      run: echo "$PAYLOAD"
       env:
         PAYLOAD: ${{ toJSON(github.event) }}
-    
     - name: store payload
       uses: actions/upload-artifact@v2
       with:
@@ -30,5 +27,4 @@ jobs:
         pip install -e .
     - uses: fastai/workflows/nb@master
     - name: Run tests
-      run: |
-        nbdev_test_nbs
+      run: nbdev_test_nbs
