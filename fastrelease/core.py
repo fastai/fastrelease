@@ -28,7 +28,7 @@ def find_config(cfg_name="settings.ini"):
 
 # Cell
 def _issue_txt(issue):
-    res = '- {} ([#{}]({}))\n'.format(issue["title"].strip(), issue["number"], issue["html_url"])
+    res = '- {} ([#{}]({}) solved by [@{}]({}))\n'.format(issue["title"].strip(), issue["number"], issue["html_url"], issue["assignee"]["login"],  issue["assignee"]["html_url"])
     body = issue['body']
     if not body: return res
     return res + fill(body.strip(), initial_indent="  - ", subsequent_indent="    ") + "\n"
