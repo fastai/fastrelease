@@ -2,6 +2,12 @@
 
 <!-- do not remove -->
 
+## 0.0.9
+
+### New Features
+
+- Add contributor name in issue text ([#30](https://github.com/fastai/fastrelease/pull/30)), thanks to [@Nilanshrajput](https://github.com/Nilanshrajput)
+
 ## 0.0.8
 
 ### New Features

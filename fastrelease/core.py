@@ -28,10 +28,11 @@ def find_config(cfg_name="settings.ini"):
 
 # Cell
 def _issue_txt(issue):
-    res = '- {} ([#{}]({})) solved by [@{}]({}))\n'.format(issue["title"].strip(), issue["number"], issue["html_url"], issue["user"]["login"], issue["user"]["html_url"])
-    body = issue['body']
-    if not body: return res
-    return res + fill(body.strip(), initial_indent="  - ", subsequent_indent="    ") + "\n"
+    res = '- {} ([#{}]({}))'.format(issue.title.strip(), issue.number, issue.html_url)
+    if hasattr(issue, 'pull_request'): res += ', thanks to [@{}]({})'.format(issue.user.login, issue.user.html_url)
+    res += '\n'
+    if not issue.body: return res
+    return res + fill(issue.body.strip(), initial_indent="  - ", subsequent_indent="    ") + "\n"
 
 def _issues_txt(iss, label):
     if not iss: return ''
@@ -63,13 +64,13 @@ class FastRelease:
     def gh(self, path, complete=False, post=False, **data):
         "Call GitHub API `path`"
         if not complete: path = f"{self.repo_url}/{path}"
-        return do_request(path, headers=self.headers, post=post, **data)
+        return dict2obj(do_request(path, headers=self.headers, post=post, **data))
 
     def _tag_date(self, tag):
         try: tag_d = self.gh(f"git/ref/tags/{tag}")
         except HTTPError: raise Exception(f"Failed to find tag {tag}")
-        commit_d = self.gh(tag_d["object"]["url"], complete=True)
-        self.commit_date = commit_d["committer"]["date"]
+        commit_d = self.gh(tag_d.object.url, complete=True)
+        self.commit_date = commit_d.committer.date
         return self.commit_date
 
     def _issues(self, label):
@@ -77,7 +78,7 @@ class FastRelease:
                        since=self.commit_date, labels=label)
 
     def _issue_groups(self): return parallel(self._issues, self.groups.keys())
-    def _latest_release(self): return self.gh("releases/latest")["tag_name"]
+    def _latest_release(self): return self.gh("releases/latest").tag_name
 
     def changelog(self, debug=False):
         "Create the CHANGELOG.md file, or return the proposed text if `debug` is `True`"
