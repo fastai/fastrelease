@@ -3,7 +3,7 @@
 __all__ = ['pypi_json', 'latest_pypi', 'write_pip_conda_meta', 'write_conda_meta', 'fastrelease_conda_package']
 
 # Cell
-from fastscript import *
+from fastcore.fastscript import *
 from fastcore.all import *
 from .core import find_config
 
