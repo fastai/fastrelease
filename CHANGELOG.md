@@ -44,3 +44,4 @@
 ### New Features
 
 - Standalone repo with no external dependencies ([#1](https://github.com/fastai/fastrelease/issues/1))
+
