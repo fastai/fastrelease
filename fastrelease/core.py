@@ -7,7 +7,6 @@ from fastcore.imports import *
 from fastcore.utils import *
 
 from datetime import datetime
-from textwrap import fill
 from configparser import ConfigParser
 import json,subprocess
 from urllib.request import HTTPError
@@ -32,7 +31,7 @@ def _issue_txt(issue):
     if hasattr(issue, 'pull_request'): res += ', thanks to [@{}]({})'.format(issue.user.login, issue.user.html_url)
     res += '\n'
     if not issue.body: return res
-    return res + fill(issue.body.strip(), initial_indent="  - ", subsequent_indent="    ") + "\n"
+    return res + f"  - {issue.body.strip()}\n"
 
 def _issues_txt(iss, label):
     if not iss: return ''
