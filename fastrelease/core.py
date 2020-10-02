@@ -99,9 +99,9 @@ class FastRelease:
     def release(self):
         "Tag and create a release in GitHub for the current version"
         ver = self.cfg['version']
-        run_proc('git', 'tag', ver)
-        run_proc('git', 'push', '--tags')
-        run_proc('git', 'pull', '--tags')
+        run(f'git tag {ver}')
+        run('git push --tags')
+        run('git pull --tags')
         notes = self.latest_notes()
         if not notes.startswith(ver): notes = ''
         self.gh("releases", post=True, tag_name=ver, name=ver, body=notes)
@@ -136,7 +136,7 @@ def fastrelease(debug:Param("Print info to be added to CHANGELOG, instead of upd
     FastRelease().changelog(debug=debug)
     subprocess.run([os.environ.get('EDITOR','nano'), cfg_path/'CHANGELOG.md'])
     if not input("Make release now? (y/n) ").lower().startswith('y'): sys.exit(1)
-    run_proc('git', 'commit', '-am', 'release')
-    run_proc('git', 'push')
+    run('git commit -am release')
+    run('git push')
     ver = FastRelease(token=token).release()
     print(f"Released {ver}")
