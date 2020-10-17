@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 0.0.12
+
+### Bugs Squashed
+
+- problems with names with hyphens ([#32](https://github.com/fastai/fastrelease/issues/32))
+
+
 ## 0.0.11
 
 ### New Features
