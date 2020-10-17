@@ -127,4 +127,3 @@ def fastrelease_conda_package(path:Param("Path where package will be created", s
     upload_str = re.findall('(anaconda upload .*)', res)[0]
     if upload_user: upload_str = upload_str.replace('anaconda upload ', f'anaconda upload -u {upload_user} ')
     res = run(upload_str)
-    if 'Upload complete' not in res: print(f"{res}\n\nUpload failed.")
