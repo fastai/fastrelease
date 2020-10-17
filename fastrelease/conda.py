@@ -26,7 +26,7 @@ def latest_pypi(name):
                if not parse(r).is_prerelease and not o[0]['yanked'])
 
 # Cell
-def _pip_conda_meta(name):
+def _pip_conda_meta(name, path):
     ver = str(latest_pypi('sentencepiece'))
     pypi = pypi_json(f'{name}/{ver}')
     info = pypi['info']

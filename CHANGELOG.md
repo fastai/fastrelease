@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 0.0.11
+
+### New Features
+
+- remove auto-linebreaks for CHANGELOG ([#31](https://github.com/fastai/fastrelease/issues/31))
+
+
 ## 0.0.9
 
 ### New Features
