@@ -111,23 +111,20 @@ def fastrelease_conda_package(path:Param("Path where package will be created", s
     "Create a `meta.yaml` file ready to be built into a package, and optionally build and upload it"
     write_conda_meta(path)
     cfg,cfg_path = find_config()
-    name = cfg.get('lib_name')
     out = f"Done. Next steps:\n```\`cd {path}\n"""
-    out_upl = f"anaconda upload build/noarch/{name}-{cfg.get('version')}-py_0.tar.bz2"
+    name,lib_path = cfg.get('lib_name'),cfg.get('lib_path')
+    out_upl = f"anaconda upload build/noarch/{lib_path}-{cfg.get('version')}-py_0.tar.bz2"
     if not do_build:
         print(f"{out}conda build .\n{out_upl}\n```")
         return
 
     os.chdir(path)
-    try: res = subprocess.check_output(f"conda build --output-folder build {build_args} .".split()).decode()
-    except subprocess.CalledProcessError as e: print(f"{e.output}\n\nBuild failed.")
-    if 'to anaconda.org' in res: return
+    res = run(f"conda build --output-folder build {build_args} {name}")
     if 'anaconda upload' not in res:
         print(f"{res}\n\Build failed.")
         return
 
     upload_str = re.findall('(anaconda upload .*)', res)[0]
     if upload_user: upload_str = upload_str.replace('anaconda upload ', f'anaconda upload -u {upload_user} ')
-    try: res = subprocess.check_output(upload_str.split(), stderr=STDOUT).decode()
-    except subprocess.CalledProcessError as e: print(f"{e.output}\n\nUpload failed.")
+    res = run(upload_str)
     if 'Upload complete' not in res: print(f"{res}\n\nUpload failed.")
