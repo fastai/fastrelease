@@ -10,7 +10,7 @@ from datetime import datetime
 from configparser import ConfigParser
 import json,subprocess
 from urllib.request import HTTPError
-from .fastscript import *
+from fastcore.script import *
 
 # Cell
 GH_HOST = "https://api.github.com"
@@ -116,7 +116,7 @@ class FastRelease:
 
 # Cell
 @call_parse
-def fastrelease_changelog(debug:Param("Print info to be added to CHANGELOG, instead of updating file", bool_arg)=False):
+def fastrelease_changelog(debug:Param("Print info to be added to CHANGELOG, instead of updating file", store_true)=False):
     "Create a CHANGELOG.md file from closed and labeled GitHub issues"
     FastRelease().changelog(debug=debug)
 
@@ -129,7 +129,7 @@ def fastrelease_release(token:Param("Optional GitHub token (otherwise `token` fi
 
 # Cell
 @call_parse
-def fastrelease(debug:Param("Print info to be added to CHANGELOG, instead of updating file", bool_arg)=False,
+def fastrelease(debug:Param("Print info to be added to CHANGELOG, instead of updating file", store_true)=False,
                 token:Param("Optional GitHub token (otherwise `token` file is used)", str)=None):
     "Calls `fastrelease_changelog`, lets you edit the result, then pushes to git and calls `fastrelease_release`"
     cfg,cfg_path = find_config()
