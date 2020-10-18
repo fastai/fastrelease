@@ -76,7 +76,7 @@ class FastRelease:
         return self.gh("issues", state='closed', sort='created', filter='all',
                        since=self.commit_date, labels=label)
 
-    def _issue_groups(self): return parallel(self._issues, self.groups.keys())
+    def _issue_groups(self): return parallel(self._issues, self.groups.keys(), progress=False)
     def _latest_release(self): return self.gh("releases/latest").tag_name
 
     def changelog(self, debug=False):
@@ -133,7 +133,8 @@ def fastrelease(debug:Param("Print info to be added to CHANGELOG, instead of upd
                 token:Param("Optional GitHub token (otherwise `token` file is used)", str)=None):
     "Calls `fastrelease_changelog`, lets you edit the result, then pushes to git and calls `fastrelease_release`"
     cfg,cfg_path = find_config()
-    FastRelease().changelog(debug=debug)
+    FastRelease().changelog()
+    if debug: return
     subprocess.run([os.environ.get('EDITOR','nano'), cfg_path/'CHANGELOG.md'])
     if not input("Make release now? (y/n) ").lower().startswith('y'): sys.exit(1)
     run('git commit -am release')
