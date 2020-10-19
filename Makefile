@@ -24,7 +24,7 @@ test:
 release: pypi
 	sleep 5
 	fastrelease_conda_package --upload_user fastai --build_args '-c pytorch -c fastai'
-	nbdev_bump_version
+	fastrelease_bump_version
 
 conda_release:
 	fastrelease_conda_package --upload_user fastai --build_args '-c pytorch -c fastai'
