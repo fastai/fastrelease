@@ -2,19 +2,11 @@
 
 <!-- do not remove -->
 
-## 0.0.13
+## 0.0.17
 
+### New Features
 
-
-
-## 0.0.13
-
-
-
-
-## 0.0.13
-
-
+- add `fastrelease_bump_version` ([#34](https://github.com/fastai/fastrelease/issues/34))
 
 
 ## 0.0.13
