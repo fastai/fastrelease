@@ -56,8 +56,8 @@ class FastRelease:
         os.chdir(cfg_path)
         if not owner: owner = self.cfg['user']
         if not repo:  repo  = self.cfg['lib_name']
-        token = ifnone(token, os.getenv('FASTRELEASE_TOKEN'),None)
-        if not token and Path('token').exists: token = Path('token').read_text().strip()
+        token = ifnone(token, os.getenv('FASTRELEASE_TOKEN',None))
+        if not token and Path('token').exists(): token = Path('token').read_text().strip()
         if not token: raise Exception('Failed to find token')
         self.headers = { 'Authorization' : 'token ' + token }
         self.owner,self.repo,self.groups = owner,repo,groups

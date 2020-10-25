@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 0.0.19
+
+### New Features
+
+- read github token from env `FASTRELEASE_TOKEN` if available ([#35](https://github.com/fastai/fastrelease/issues/35))
+
+
 ## 0.0.17
 
 ### New Features
