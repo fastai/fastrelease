@@ -10,7 +10,7 @@ from fastcore.foundation import *
 
 from datetime import datetime
 from configparser import ConfigParser
-import json,subprocess
+import json,subprocess,shutil
 from urllib.request import HTTPError
 from fastcore.script import *
 
