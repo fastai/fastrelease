@@ -119,7 +119,7 @@ def fastrelease_conda_package(path:Param("Path where package will be created", s
         return
 
     os.chdir(path)
-    res = run(f"conda build --output-folder build {build_args} {name}")
+    res = run(f"conda build --no-anaconda-upload --output-folder build {build_args} {name}")
     if 'anaconda upload' not in res:
         print(f"{res}\n\Build failed.")
         return
