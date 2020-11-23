@@ -4,7 +4,9 @@
 
 ## 0.0.21
 
+### Bugs Squashed
 
+- conda builds failing with `fastrelease_conda_package` ([#36](https://github.com/fastai/fastrelease/issues/36))
 
 
 ## 0.0.19
