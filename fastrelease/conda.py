@@ -113,7 +113,8 @@ def fastrelease_conda_package(path:Param("Path where package will be created", s
     cfg,cfg_path = find_config()
     out = f"Done. Next steps:\n```\`cd {path}\n"""
     name,lib_path = cfg.get('lib_name'),cfg.get('lib_path')
-    out_upl = f"anaconda upload build/noarch/{lib_path}-{cfg.get('version')}-py_0.tar.bz2"
+    loc = f"build/noarch/{lib_path}-{cfg.get('version')}-py_0.tar.bz2"
+    out_upl = f"anaconda upload {loc}"
     if not do_build:
         print(f"{out}conda build .\n{out_upl}\n```")
         return
@@ -121,9 +122,9 @@ def fastrelease_conda_package(path:Param("Path where package will be created", s
     os.chdir(path)
     res = run(f"conda build --no-anaconda-upload --output-folder build {build_args} {name}")
     if 'anaconda upload' not in res:
-        print(f"{res}\n\Build failed.")
+        print(f"{res}\n\Build failed. Ensure that auto-upload not set in .condarc. Try running with `--do_build False`.")
         return
 
-    upload_str = re.findall('(anaconda upload .*)', res)[0]
-    if upload_user: upload_str = upload_str.replace('anaconda upload ', f'anaconda upload -u {upload_user} ')
-    res = run(upload_str)
+    upload_str = 'anaconda upload '
+    if upload_user: upload_str += f'-u {upload_user} '
+    res = run(upload_str + loc)
