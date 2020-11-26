@@ -7,12 +7,12 @@ __all__ = ['GH_HOST', 'find_config', 'FastRelease', 'fastrelease_changelog', 'fa
 from fastcore.imports import *
 from fastcore.utils import *
 from fastcore.foundation import *
+from fastcore.script import *
+from ghapi import *
 
 from datetime import datetime
 from configparser import ConfigParser
-import json,subprocess,shutil
-from urllib.request import HTTPError
-from fastcore.script import *
+import shutil,subprocess
 
 # Cell
 GH_HOST = "https://api.github.com"
@@ -54,43 +54,24 @@ class FastRelease:
             default_groups=dict(breaking="Breaking Changes", enhancement="New Features", bug="Bugs Squashed")
             groups=_load_json(self.cfg, 'label_groups') if 'label_groups' in self.cfg else default_groups
         os.chdir(cfg_path)
-        if not owner: owner = self.cfg['user']
-        if not repo:  repo  = self.cfg['lib_name']
+        owner,repo = owner or self.cfg['user'], repo or self.cfg['lib_name']
         token = ifnone(token, os.getenv('FASTRELEASE_TOKEN',None))
         if not token and Path('token').exists(): token = Path('token').read_text().strip()
         if not token: raise Exception('Failed to find token')
-        self.headers = { 'Authorization' : 'token ' + token }
-        self.owner,self.repo,self.groups = owner,repo,groups
-        self.repo_url = f"{GH_HOST}/repos/{owner}/{repo}"
-
-    def gh(self, path, complete=False, post=False, **data):
-        "Call GitHub API `path`"
-        if not complete: path = f"{self.repo_url}/{path}"
-        return dict2obj(do_request(path, headers=self.headers, post=post, **data))
-
-    def _tag_date(self, tag):
-        try: tag_d = self.gh(f"git/ref/tags/{tag}")
-        except HTTPError: raise Exception(f"Failed to find tag {tag}")
-        commit_d = self.gh(tag_d.object.url, complete=True)
-        self.commit_date = commit_d.committer.date
-        return self.commit_date
+        self.gh = GhApi(owner, repo, token)
+        self.groups = groups
 
     def _issues(self, label):
-        return self.gh("issues", state='closed', sort='created', filter='all',
+        return self.gh.issues.list_for_repo(state='closed', sort='created', filter='all',
                        since=self.commit_date, labels=label)
-
     def _issue_groups(self): return parallel(self._issues, self.groups.keys(), progress=False)
-    def _latest_release(self): return self.gh("releases/latest").tag_name
 
     def changelog(self, debug=False):
         "Create the CHANGELOG.md file, or return the proposed text if `debug` is `True`"
         if not self.changefile.exists(): self.changefile.write_text("# Release notes\n\n<!-- do not remove -->\n")
         marker = '<!-- do not remove -->\n'
-        try:
-            latest = self._latest_release()
-            self._tag_date(latest)
-        except HTTPError: # no prior releases
-            self.commit_date = '2000-01-01T00:00:004Z'
+        try: self.commit_date = self.gh.repos.get_latest_release().published_at
+        except HTTPError: self.commit_date = '2000-01-01T00:00:004Z'
         res = f"\n## {self.cfg['version']}\n"
         issues = self._issue_groups()
         res += '\n'.join(_issues_txt(*o) for o in zip(issues, self.groups.values()))
@@ -102,12 +83,9 @@ class FastRelease:
     def release(self):
         "Tag and create a release in GitHub for the current version"
         ver = self.cfg['version']
-        run(f'git tag {ver}')
-        run('git push --tags')
-        run('git pull --tags')
         notes = self.latest_notes()
         if not notes.startswith(ver): notes = ''
-        self.gh("releases", post=True, tag_name=ver, name=ver, body=notes)
+        self.gh.create_release(ver, body=notes)
         return ver
 
     def latest_notes(self):
