@@ -2,6 +2,14 @@
 
 <!-- do not remove -->
 
+
+## 0.1.0
+
+### New Features
+
+- update to use new `ghapi` library ([#37](https://github.com/fastai/fastrelease/issues/37))
+
+
 ## 0.0.21
 
 ### Bugs Squashed
@@ -66,7 +74,7 @@
 
 ### Bugs Squashed
 
-- fastrelease_changelog `debug` param not optional ([#26](https://github.com/fastai/fastrelease/issues/26))
+- `fastrelease_changelog` `debug` param not optional ([#26](https://github.com/fastai/fastrelease/issues/26))
 
 ## 0.0.3
 
