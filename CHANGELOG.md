@@ -2,6 +2,12 @@
 
 <!-- do not remove -->
 
+## 0.1.1
+
+### New Features
+
+- remove version number from start of release body ([#38](https://github.com/fastai/fastrelease/issues/38))
+
 
 ## 0.1.0
 
