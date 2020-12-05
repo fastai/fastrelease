@@ -71,7 +71,7 @@ class FastRelease:
         if not self.changefile.exists(): self.changefile.write_text("# Release notes\n\n<!-- do not remove -->\n")
         marker = '<!-- do not remove -->\n'
         try: self.commit_date = self.gh.repos.get_latest_release().published_at
-        except HTTPError: self.commit_date = '2000-01-01T00:00:004Z'
+        except HTTP404NotFoundError: self.commit_date = '2000-01-01T00:00:004Z'
         res = f"\n## {self.cfg['version']}\n"
         issues = self._issue_groups()
         res += '\n'.join(_issues_txt(*o) for o in zip(issues, self.groups.values()))
@@ -79,6 +79,7 @@ class FastRelease:
         res = self.changefile.read_text().replace(marker, marker+res+"\n")
         shutil.copy(self.changefile, self.changefile.with_suffix(".bak"))
         self.changefile.write_text(res)
+        run(f'git add {self.changefile}')
 
     def release(self):
         "Tag and create a release in GitHub for the current version"
@@ -93,7 +94,7 @@ class FastRelease:
         if not self.changefile.exists(): return ''
         its = re.split(r'^## ', self.changefile.read_text(), flags=re.MULTILINE)
         if not len(its)>0: return ''
-        return its[1].strip()
+        return '\n'.join(its[1].splitlines()[1:]).strip()
 
 # Cell
 @call_parse
