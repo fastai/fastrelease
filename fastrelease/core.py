@@ -62,8 +62,7 @@ class FastRelease:
         self.groups = groups
 
     def _issues(self, label):
-        return self.gh.issues.list_for_repo(state='closed', sort='created', filter='all',
-                       since=self.commit_date, labels=label)
+        return self.gh.issues.list_for_repo(state='closed', sort='created', filter='all', since=self.commit_date, labels=label)
     def _issue_groups(self): return parallel(self._issues, self.groups.keys(), progress=False)
 
     def changelog(self, debug=False):
@@ -85,7 +84,6 @@ class FastRelease:
         "Tag and create a release in GitHub for the current version"
         ver = self.cfg['version']
         notes = self.latest_notes()
-        if not notes.startswith(ver): notes = ''
         self.gh.create_release(ver, body=notes)
         return ver
 
