@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 0.1.2
+
+### Bugs Squashed
+
+- changelog not appearing in release body ([#39](https://github.com/fastai/fastrelease/issues/39))
+
+
 ## 0.1.1
 
 ### New Features
