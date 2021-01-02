@@ -8,7 +8,7 @@ from fastcore.imports import *
 from fastcore.utils import *
 from fastcore.foundation import *
 from fastcore.script import *
-from ghapi import *
+from ghapi.core import *
 
 from datetime import datetime
 from configparser import ConfigParser

@@ -12,8 +12,12 @@ index = {"GH_HOST": "00_core.ipynb",
          "fastrelease_bump_version": "00_core.ipynb",
          "pypi_json": "01_conda.ipynb",
          "latest_pypi": "01_conda.ipynb",
+         "pypi_details": "01_conda.ipynb",
+         "update_meta": "01_conda.ipynb",
+         "conda_output_path": "01_conda.ipynb",
          "write_pip_conda_meta": "01_conda.ipynb",
          "write_conda_meta": "01_conda.ipynb",
+         "anaconda_upload": "01_conda.ipynb",
          "fastrelease_conda_package": "01_conda.ipynb"}
 
 modules = ["core.py",
