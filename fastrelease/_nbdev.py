@@ -18,7 +18,8 @@ index = {"GH_HOST": "00_core.ipynb",
          "write_pip_conda_meta": "01_conda.ipynb",
          "write_conda_meta": "01_conda.ipynb",
          "anaconda_upload": "01_conda.ipynb",
-         "fastrelease_conda_package": "01_conda.ipynb"}
+         "fastrelease_conda_package": "01_conda.ipynb",
+         "chk_conda_rel": "01_conda.ipynb"}
 
 modules = ["core.py",
            "conda.py"]
