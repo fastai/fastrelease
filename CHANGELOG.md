@@ -2,6 +2,12 @@
 
 <!-- do not remove -->
 
+## 0.1.7
+
+### New Features
+
+- add `chk_conda_rel` ([#43](https://github.com/fastai/fastrelease/issues/43))
+
 
 ## 0.1.2
 
