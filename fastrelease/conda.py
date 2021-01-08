@@ -136,7 +136,7 @@ def anaconda_upload(name, version, user=None, token=None, env_token=None):
     user = f'-u {user} ' if user else ''
     if env_token: token = os.getenv(env_token)
     token = f'-t {token} ' if token else ''
-    return run(f'anaconda {token} upload {user} {conda_output_path(name,version)} --skip-existing')
+    return run(f'anaconda {token} upload {user} {conda_output_path(name,version)} --skip-existing', stderr=True)
 
 # Cell
 @call_parse
