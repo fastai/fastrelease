@@ -8,7 +8,7 @@ from fastcore.script import *
 from fastcore.all import *
 from .core import find_config
 
-import yaml,subprocess,glob
+import yaml,subprocess,glob,platform
 from copy import deepcopy
 try: from packaging.version import parse
 except ImportError: from pip._vendor.packaging.version import parse
@@ -48,6 +48,7 @@ def update_meta(name,src_path,dest_path):
 def conda_output_path(name,ver):
     "Output path for conda build"
     pre = run('conda info --root').strip()
+    pre = Path(pre).as_posix()
     s = f"{pre}/conda-bld/*/{name}-{ver}-py"
     res = first(glob.glob(f"{s}_0.tar.bz2"))
     if res: return res
