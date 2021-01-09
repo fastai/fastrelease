@@ -2,6 +2,13 @@
 
 <!-- do not remove -->
 
+## 0.1.9
+
+### New Features
+
+- `conda_output_path` windows compatibility ([#44](https://github.com/fastai/fastrelease/issues/44))
+
+
 ## 0.1.7
 
 ### New Features
