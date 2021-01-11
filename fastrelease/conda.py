@@ -95,7 +95,7 @@ def _write_yaml(path, name, d1, d2):
 # Cell
 def write_pip_conda_meta(name, path='conda'):
     "Writes a `meta.yaml` file for `name` to the `conda` directory of the current directory"
-    _write_yaml(path, name, *_pip_conda_meta(name))
+    _write_yaml(path, name, *_pip_conda_meta(name, path))
 
 # Cell
 def _get_conda_meta():
