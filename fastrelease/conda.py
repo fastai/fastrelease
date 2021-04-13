@@ -52,13 +52,12 @@ def as_posix(p):
 # Cell
 def conda_output_path(name,ver):
     "Output path for conda build"
-    pre = run('conda info --root').strip()
+    pre = run('conda info --root', same_in_win=True).strip()
     s = f"{as_posix(pre)}/conda-bld/*/{name}-{ver}-py"
-    res = first(glob.glob(f"{s}_0.tar.bz2"))
+    res = glob.glob(f"{s}_0.tar.bz2")
     if not res:
-        pyver = strcat(sys.version_info[:2])
-        res = first(glob.glob(f"{s}{pyver}_0.tar.bz2"))
-    return as_posix(res)
+        res = glob.glob(f"{s}*_0.tar.bz2")
+    if res: return [as_posix(i) for i in res]
 
 # Cell
 def _pip_conda_meta(name, path):
@@ -93,12 +92,24 @@ def _write_yaml(path, name, d1, d2):
         yaml.safe_dump(d2, f)
 
 # Cell
+def _write_buildconfig_yaml(path, name):
+    path = Path(path)
+    p = path/name
+    p.mkdir(exist_ok=True, parents=True)
+    yaml.SafeDumper.ignore_aliases = lambda *args : True
+    with (p/'conda_build_config.yaml').open('w') as f:
+        d1 = {
+            'python': [3.6, 3.7, 3.8]
+        }
+        yaml.safe_dump(d1, f)
+
+# Cell
 def write_pip_conda_meta(name, path='conda'):
     "Writes a `meta.yaml` file for `name` to the `conda` directory of the current directory"
     _write_yaml(path, name, *_pip_conda_meta(name, path))
 
 # Cell
-def _get_conda_meta():
+def _get_conda_meta(pure_python=True):
     cfg,cfg_path = find_config()
     name,ver = cfg.get('lib_name'),cfg.get('version')
     url = cfg.get('doc_host') or cfg.get('git_url')
@@ -116,9 +127,14 @@ def _get_conda_meta():
         'source': {'url':rel['url'], 'sha256':rel['digests']['sha256']}
     }
 
+    if not pure_python and sys.platform == 'win32':
+        build_section = {'number': '0', 'win-64': 'python',
+                    'script': '{{ PYTHON }} setup.py install --single-version-externally-managed --record=record.txt'}
+    else:
+        build_section = {'number': '0', 'noarch': 'python',
+                  'script': '{{ PYTHON }} -m pip install . -vv'}
     d2 = {
-        'build': {'number': '0', 'noarch': 'python',
-                  'script': '{{ PYTHON }} -m pip install . -vv'},
+        'build': build_section,
         'requirements': {'host':reqs, 'run':reqs},
         'test': {'imports': [cfg.get('lib_path')]},
         'about': {
@@ -132,17 +148,23 @@ def _get_conda_meta():
     return name,d1,d2
 
 # Cell
-def write_conda_meta(path='conda'):
+def write_conda_meta(path='conda', pure_python=True):
     "Writes a `meta.yaml` file to the `conda` directory of the current directory"
-    _write_yaml(path, *_get_conda_meta())
+    _write_yaml(path, *_get_conda_meta(pure_python))
+    if not pure_python and sys.platform == 'win32':
+        cfg, _ = find_config()
+        _write_buildconfig_yaml(path, cfg.get('lib_name'))
 
 # Cell
-def anaconda_upload(name, version, user=None, token=None, env_token=None):
+def anaconda_upload(name, user=None, token=None, env_token=None):
     "Update `name` `version` to anaconda"
     user = f'-u {user} ' if user else ''
     if env_token: token = os.getenv(env_token)
     token = f'-t {token} ' if token else ''
-    return run(f'anaconda {token} upload {user} {conda_output_path(name,version)} --skip-existing', stderr=True)
+    locations = conda_output_path(name,version)
+    for loc in locations:
+        cmd_str = f'anaconda {token} upload {user} {loc} --skip-existing'
+        run(cmd_str, same_in_win=True, stderr=True)
 
 # Cell
 @call_parse
@@ -151,21 +173,24 @@ def fastrelease_conda_package(path:Param("Path where package will be created", s
                               build_args:Param("Additional args (as str) to send to `conda build`", str)='',
                               skip_upload:Param("Skip `anaconda upload` step", store_true)=False,
                               mambabuild:Param("Use `mambabuild` (requires `boa`)", store_true)=False,
-                              upload_user:Param("Optional user to upload package to")=None):
+                              upload_user:Param("Optional user to upload package to")=None,
+                              pure_python:Param("pure python package", bool_arg)=True):
     "Create a `meta.yaml` file ready to be built into a package, and optionally build and upload it"
-    write_conda_meta(path)
+    write_conda_meta(path, pure_python)
     cfg,cfg_path = find_config()
     out = f"Done. Next steps:\n```\`cd {path}\n"""
     name,lib_path = cfg.get('lib_name'),cfg.get('lib_path')
-    loc = conda_output_path(lib_path, cfg.get('version'))
-    out_upl = f"anaconda upload {loc}"
+    locations = conda_output_path(lib_path, cfg.get('version'))
+    out_upl = ""
+    for loc in locations:
+        out_upl += f"anaconda upload {loc}\n"
     build = 'mambabuild' if mambabuild else 'build'
-    if not do_build: return print(f"{out}conda {build} .\n{out_upl}\n```")
+    if not do_build: return print(f"{out}conda {build} .\n{out_upl}```")
 
     os.chdir(path)
-    res = run(f"conda {build} --no-anaconda-upload {build_args} {name}")
+    res = run(f"conda {build} --no-anaconda-upload {build_args} {name}", same_in_win=True)
     if 'anaconda upload' not in res: return print(f"{res}\n\Failed. Check auto-upload not set in .condarc. Try `--do_build False`.")
-    return anaconda_upload(lib_path, cfg.get('version'))
+    anaconda_upload(lib_path)
 
 # Cell
 @call_parse
@@ -175,7 +200,7 @@ def chk_conda_rel(nm:Param('Package name on pypi', str),
                   force:Param('Always return github tag', store_true)=False):
     "Prints GitHub tag only if a newer release exists on Pypi compared to an Anaconda Repo."
     if not apkg: apkg=nm
-    condavs = L(loads(run(f'mamba repoquery search {apkg} -c {channel} --json'))['result']['pkgs'])
+    condavs = L(loads(run(f'mamba repoquery search {apkg} -c {channel} --json', same_in_win=True))['result']['pkgs'])
     condatag = condavs.attrgot('version').map(parse)
     pypitag = latest_pypi(nm)
     if force or not condatag or pypitag > max(condatag): return f'{pypitag}'
