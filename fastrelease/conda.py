@@ -57,7 +57,7 @@ def conda_output_path(name,ver):
     res = glob.glob(f"{s}_0.tar.bz2")
     if not res:
         res = glob.glob(f"{s}*_0.tar.bz2")
-    if res: return [as_posix(i) for i in res]
+    return [as_posix(i) for i in res] if res else []
 
 # Cell
 def _pip_conda_meta(name, path):
