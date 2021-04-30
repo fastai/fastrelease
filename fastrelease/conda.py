@@ -156,7 +156,7 @@ def write_conda_meta(path='conda', pure_python=True):
         _write_buildconfig_yaml(path, cfg.get('lib_name'))
 
 # Cell
-def anaconda_upload(name, user=None, token=None, env_token=None):
+def anaconda_upload(name, version, user=None, token=None, env_token=None):
     "Update `name` `version` to anaconda"
     user = f'-u {user} ' if user else ''
     if env_token: token = os.getenv(env_token)
@@ -190,7 +190,7 @@ def fastrelease_conda_package(path:Param("Path where package will be created", s
     os.chdir(path)
     res = run(f"conda {build} --no-anaconda-upload {build_args} {name}", same_in_win=True)
     if 'anaconda upload' not in res: return print(f"{res}\n\Failed. Check auto-upload not set in .condarc. Try `--do_build False`.")
-    anaconda_upload(lib_path)
+    anaconda_upload(lib_path, cfg.get('version'))
 
 # Cell
 @call_parse
