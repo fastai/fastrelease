@@ -21,11 +21,7 @@ GH_HOST = "https://api.github.com"
 def find_config(cfg_name="settings.ini"):
     cfg_path = Path().absolute()
     while cfg_path != cfg_path.parent and not (cfg_path/cfg_name).exists(): cfg_path = cfg_path.parent
-    config_file = cfg_path/cfg_name
-    assert config_file.exists(), f"Couldn't find {cfg_name}"
-    config = ConfigParser()
-    config.read(config_file)
-    return config['DEFAULT'],cfg_path
+    return Config(cfg_path, cfg_name)
 
 # Cell
 def _issue_txt(issue):
@@ -48,13 +44,13 @@ def _load_json(cfg, k):
 class FastRelease:
     def __init__(self, owner=None, repo=None, token=None, **groups):
         "Create CHANGELOG.md from GitHub issues"
-        self.cfg,cfg_path = find_config()
-        self.changefile = cfg_path/'CHANGELOG.md'
+        self.cfg = find_config()
+        self.changefile = self.cfg.config_path/'CHANGELOG.md'
         if not groups:
             default_groups=dict(breaking="Breaking Changes", enhancement="New Features", bug="Bugs Squashed")
             groups=_load_json(self.cfg, 'label_groups') if 'label_groups' in self.cfg else default_groups
-        os.chdir(cfg_path)
-        owner,repo = owner or self.cfg['user'], repo or self.cfg['lib_name']
+        os.chdir(self.cfg.config_path)
+        owner,repo = owner or self.cfg.user, repo or self.cfg.lib_name
         token = ifnone(token, os.getenv('FASTRELEASE_TOKEN',None))
         if not token and Path('token').exists(): token = Path('token').read_text().strip()
         if not token: raise Exception('Failed to find token')
@@ -71,7 +67,7 @@ class FastRelease:
         marker = '<!-- do not remove -->\n'
         try: self.commit_date = self.gh.repos.get_latest_release().published_at
         except HTTP404NotFoundError: self.commit_date = '2000-01-01T00:00:004Z'
-        res = f"\n## {self.cfg['version']}\n"
+        res = f"\n## {self.cfg.version}\n"
         issues = self._issue_groups()
         res += '\n'.join(_issues_txt(*o) for o in zip(issues, self.groups.values()))
         if debug: return res
@@ -82,7 +78,7 @@ class FastRelease:
 
     def release(self):
         "Tag and create a release in GitHub for the current version"
-        ver = self.cfg['version']
+        ver = self.cfg.version
         notes = self.latest_notes()
         self.gh.create_release(ver, body=notes)
         return ver
@@ -112,10 +108,10 @@ def fastrelease_release(token:Param("Optional GitHub token (otherwise `token` fi
 def fastrelease(debug:Param("Print info to be added to CHANGELOG, instead of updating file", store_true)=False,
                 token:Param("Optional GitHub token (otherwise `token` file is used)", str)=None):
     "Calls `fastrelease_changelog`, lets you edit the result, then pushes to git and calls `fastrelease_release`"
-    cfg,cfg_path = find_config()
+    cfg = find_config()
     FastRelease().changelog()
     if debug: return
-    subprocess.run([os.environ.get('EDITOR','nano'), cfg_path/'CHANGELOG.md'])
+    subprocess.run([os.environ.get('EDITOR','nano'), cfg.config_path/'CHANGELOG.md'])
     if not input("Make release now? (y/n) ").lower().startswith('y'): sys.exit(1)
     run('git commit -am release')
     run('git push')
@@ -133,8 +129,8 @@ def bump_version(version, part=2):
 @call_parse
 def fastrelease_bump_version(part:Param("Part of version to bump", int)=2):
     "Increment version in `settings.py` by one"
-    cfg = Config()
+    cfg = find_config()
     print(f'Old version: {cfg.version}')
-    cfg.d['version'] = bump_version(Config().version, part)
+    cfg['version'] = bump_version(cfg.version, part)
     cfg.save()
     print(f'New version: {cfg.version}')

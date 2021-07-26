@@ -99,13 +99,13 @@ def write_pip_conda_meta(name, path='conda'):
 
 # Cell
 def _get_conda_meta():
-    cfg,cfg_path = find_config()
-    name,ver = cfg.get('lib_name'),cfg.get('version')
-    url = cfg.get('doc_host') or cfg.get('git_url')
+    cfg = find_config()
+    name,ver = cfg.lib_name,cfg.version
+    url = cfg.doc_host or cfg.git_url
 
     reqs = ['pip', 'python', 'packaging']
-    if cfg.get('requirements'): reqs += cfg.get('requirements').split()
-    if cfg.get('conda_requirements'): reqs += cfg.get('conda_requirements').split()
+    if cfg.get('requirements'): reqs += cfg.requirements.split()
+    if cfg.get('conda_requirements'): reqs += cfg.conda_requirements.split()
 
     pypi = pypi_json(f'{name}/{ver}')
     rel = [o for o in pypi['urls'] if o['packagetype']=='sdist'][0]
@@ -154,18 +154,18 @@ def fastrelease_conda_package(path:Param("Path where package will be created", s
                               upload_user:Param("Optional user to upload package to")=None):
     "Create a `meta.yaml` file ready to be built into a package, and optionally build and upload it"
     write_conda_meta(path)
-    cfg,cfg_path = find_config()
+    cfg = find_config()
     out = f"Done. Next steps:\n```\`cd {path}\n"""
-    name,lib_path = cfg.get('lib_name'),cfg.get('lib_path')
-    loc = conda_output_path(lib_path, cfg.get('version'))
-    out_upl = f"anaconda upload {loc}"
+    name,lib_path = cfg.lib_name,cfg.lib_path
+#     out_upl = f"anaconda upload {loc}"
     build = 'mambabuild' if mambabuild else 'build'
-    if not do_build: return print(f"{out}conda {build} .\n{out_upl}\n```")
+    if not do_build: return #print(f"{out}conda {build} .\n{out_upl}\n```")
 
     os.chdir(path)
     res = run(f"conda {build} --no-anaconda-upload {build_args} {name}")
     if 'anaconda upload' not in res: return print(f"{res}\n\Failed. Check auto-upload not set in .condarc. Try `--do_build False`.")
-    return anaconda_upload(lib_path, cfg.get('version'))
+    loc = conda_output_path(lib_path, cfg.version)
+    return anaconda_upload(lib_path, cfg.version)
 
 # Cell
 @call_parse
