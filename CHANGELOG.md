@@ -2,6 +2,14 @@
 
 <!-- do not remove -->
 
+
+## 0.1.10
+
+### New Features
+
+- support latest fastcore `Config` ([#64](https://github.com/fastai/fastrelease/issues/64))
+
+
 ## 0.1.9
 
 ### New Features
