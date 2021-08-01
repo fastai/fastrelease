@@ -58,7 +58,7 @@ def conda_output_path(name,ver):
     if not res:
         pyver = strcat(sys.version_info[:2])
         res = first(glob.glob(f"{s}{pyver}_0.tar.bz2"))
-    return as_posix(res)
+    if res: return as_posix(res)
 
 # Cell
 def _pip_conda_meta(name, path):
@@ -142,7 +142,9 @@ def anaconda_upload(name, version, user=None, token=None, env_token=None):
     user = f'-u {user} ' if user else ''
     if env_token: token = os.getenv(env_token)
     token = f'-t {token} ' if token else ''
-    return run(f'anaconda {token} upload {user} {conda_output_path(name,version)} --skip-existing', stderr=True)
+    loc = conda_output_path(name,version)
+    if not loc: raise Exception("Failed to find output")
+    return run(f'anaconda {token} upload {user} {loc} --skip-existing', stderr=True)
 
 # Cell
 @call_parse
@@ -162,6 +164,7 @@ def fastrelease_conda_package(path:Param("Path where package will be created", s
     if not do_build: return #print(f"{out}conda {build} .\n{out_upl}\n```")
 
     os.chdir(path)
+    print(f"conda {build} --no-anaconda-upload {build_args} {name}")
     res = run(f"conda {build} --no-anaconda-upload {build_args} {name}")
     if 'anaconda upload' not in res: return print(f"{res}\n\Failed. Check auto-upload not set in .condarc. Try `--do_build False`.")
     loc = conda_output_path(lib_path, cfg.version)
