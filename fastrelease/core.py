@@ -80,7 +80,7 @@ class FastRelease:
         "Tag and create a release in GitHub for the current version"
         ver = self.cfg.version
         notes = self.latest_notes()
-        self.gh.create_release(ver, body=notes)
+        self.gh.create_release(ver, branch=self.cfg.branch, body=notes)
         return ver
 
     def latest_notes(self):
