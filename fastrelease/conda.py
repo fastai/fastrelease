@@ -148,12 +148,14 @@ def anaconda_upload(name, version, user=None, token=None, env_token=None):
 
 # Cell
 @call_parse
-def fastrelease_conda_package(path:Param("Path where package will be created", str)='conda',
-                              do_build:Param("Run `conda build` step", bool_arg)=True,
-                              build_args:Param("Additional args (as str) to send to `conda build`", str)='',
-                              skip_upload:Param("Skip `anaconda upload` step", store_true)=False,
-                              mambabuild:Param("Use `mambabuild` (requires `boa`)", store_true)=False,
-                              upload_user:Param("Optional user to upload package to")=None):
+def fastrelease_conda_package(
+    path:str='conda', # Path where package will be created
+    do_build:bool_arg=True,  # Run `conda build` step
+    build_args:str='',  # Additional args (as str) to send to `conda build`
+    skip_upload:store_true=False,  # Skip `anaconda upload` step
+    mambabuild:store_true=False,  # Use `mambabuild` (requires `boa`)
+    upload_user:None=None  # Optional user to upload package to
+):
     "Create a `meta.yaml` file ready to be built into a package, and optionally build and upload it"
     write_conda_meta(path)
     cfg = find_config()
@@ -172,10 +174,12 @@ def fastrelease_conda_package(path:Param("Path where package will be created", s
 
 # Cell
 @call_parse
-def chk_conda_rel(nm:Param('Package name on pypi', str),
-                  apkg:Param('Anaconda Package (defaults to {nm})', str)=None,
-                  channel:Param('Anaconda Channel', str)='fastai',
-                  force:Param('Always return github tag', store_true)=False):
+def chk_conda_rel(
+    nm:str,  # Package name on pypi
+    apkg:str=None,  # Anaconda Package (defaults to {nm})
+    channel:str='fastai',  # Anaconda Channel
+    force:store_true=False  # Always return github tag
+):
     "Prints GitHub tag only if a newer release exists on Pypi compared to an Anaconda Repo."
     if not apkg: apkg=nm
     condavs = L(loads(run(f'mamba repoquery search {apkg} -c {channel} --json'))['result']['pkgs'])

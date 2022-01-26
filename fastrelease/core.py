@@ -92,21 +92,27 @@ class FastRelease:
 
 # Cell
 @call_parse
-def fastrelease_changelog(debug:Param("Print info to be added to CHANGELOG, instead of updating file", store_true)=False):
+def fastrelease_changelog(
+    debug:store_true=False  # Print info to be added to CHANGELOG, instead of updating file
+):
     "Create a CHANGELOG.md file from closed and labeled GitHub issues"
     FastRelease().changelog(debug=debug)
 
 # Cell
 @call_parse
-def fastrelease_release(token:Param("Optional GitHub token (otherwise `token` file is used)", str)=None):
+def fastrelease_release(
+    token:str=None  # Optional GitHub token (otherwise `token` file is used)
+):
     "Tag and create a release in GitHub for the current version"
     ver = FastRelease(token=token).release()
     print(f"Released {ver}")
 
 # Cell
 @call_parse
-def fastrelease(debug:Param("Print info to be added to CHANGELOG, instead of updating file", store_true)=False,
-                token:Param("Optional GitHub token (otherwise `token` file is used)", str)=None):
+def fastrelease(
+    debug:store_true=False,  # Print info to be added to CHANGELOG, instead of updating file
+    token:str=None  # Optional GitHub token (otherwise `token` file is used)
+):
     "Calls `fastrelease_changelog`, lets you edit the result, then pushes to git and calls `fastrelease_release`"
     cfg = find_config()
     FastRelease().changelog()
@@ -127,7 +133,9 @@ def bump_version(version, part=2):
 
 # Cell
 @call_parse
-def fastrelease_bump_version(part:Param("Part of version to bump", int)=2):
+def fastrelease_bump_version(
+    part:int=2  # Part of version to bump
+):
     "Increment version in `settings.py` by one"
     cfg = find_config()
     print(f'Old version: {cfg.version}')
