@@ -149,18 +149,12 @@ def anaconda_upload(name, version, user=None, token=None, env_token=None):
 # Cell
 @call_parse
 def fastrelease_conda_package(
-    # Path where package will be created
-    path:str='conda',
-    # Run `conda build` step
-    do_build:bool_arg=True,
-    # Additional args (as str) to send to `conda build`
-    build_args:str='',
-    # Skip `anaconda upload` step
-    skip_upload:store_true=False,
-    # Use `mambabuild` (requires `boa`)
-    mambabuild:store_true=False,
-    # Optional user to upload package to
-    upload_user:None=None
+    path:str='conda', # Path where package will be created
+    do_build:bool_arg=True,  # Run `conda build` step
+    build_args:str='',  # Additional args (as str) to send to `conda build`
+    skip_upload:store_true=False,  # Skip `anaconda upload` step
+    mambabuild:store_true=False,  # Use `mambabuild` (requires `boa`)
+    upload_user:None=None  # Optional user to upload package to
 ):
     "Create a `meta.yaml` file ready to be built into a package, and optionally build and upload it"
     write_conda_meta(path)
@@ -181,14 +175,10 @@ def fastrelease_conda_package(
 # Cell
 @call_parse
 def chk_conda_rel(
-    # Package name on pypi
-    nm:str,
-    # Anaconda Package (defaults to {nm})
-    apkg:str=None,
-    # Anaconda Channel
-    channel:str='fastai',
-    # Always return github tag
-    force:store_true=False
+    nm:str,  # Package name on pypi
+    apkg:str=None,  # Anaconda Package (defaults to {nm})
+    channel:str='fastai',  # Anaconda Channel
+    force:store_true=False  # Always return github tag
 ):
     "Prints GitHub tag only if a newer release exists on Pypi compared to an Anaconda Repo."
     if not apkg: apkg=nm
