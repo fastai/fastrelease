@@ -93,10 +93,11 @@ class FastRelease:
 # Cell
 @call_parse
 def fastrelease_changelog(
-    debug:store_true=False  # Print info to be added to CHANGELOG, instead of updating file
+    debug:store_true=False,  # Print info to be added to CHANGELOG, instead of updating file
+    repo:str=None,  # repo to use instead of `lib_name` from `settings.ini`
 ):
     "Create a CHANGELOG.md file from closed and labeled GitHub issues"
-    FastRelease().changelog(debug=debug)
+    FastRelease(repo=repo).changelog(debug=debug)
 
 # Cell
 @call_parse
