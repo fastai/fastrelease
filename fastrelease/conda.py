@@ -52,13 +52,7 @@ def as_posix(p):
 # Cell
 def conda_output_path(name,ver):
     "Output path for conda build"
-    pre = run('conda info --root').strip()
-    s = f"{as_posix(pre)}/conda-bld/*/{name}-{ver}-py"
-    res = first(glob.glob(f"{s}_0.tar.bz2"))
-    if not res:
-        pyver = strcat(sys.version_info[:2])
-        res = first(glob.glob(f"{s}{pyver}_0.tar.bz2"))
-    if res: return as_posix(res)
+    return run(f'conda build --output {name}').strip()
 
 # Cell
 def _pip_conda_meta(name, path):
@@ -159,17 +153,17 @@ def fastrelease_conda_package(
     "Create a `meta.yaml` file ready to be built into a package, and optionally build and upload it"
     write_conda_meta(path)
     cfg = find_config()
-    out = f"Done. Next steps:\n```\`cd {path}\n"""
+    out = f"Done. Next steps:\n```\ncd {path}\n"""
     name,lib_path = cfg.lib_name,cfg.lib_path
-#     out_upl = f"anaconda upload {loc}"
-    build = 'mambabuild' if mambabuild else 'build'
-    if not do_build: return #print(f"{out}conda {build} .\n{out_upl}\n```")
-
     os.chdir(path)
+    loc = conda_output_path(lib_path, cfg.version)
+    out_upl = f"anaconda upload {loc}"
+    build = 'mambabuild' if mambabuild else 'build'
+    if not do_build: return print(f"{out}conda {build} .\n{out_upl}\n```")
+
     print(f"conda {build} --no-anaconda-upload {build_args} {name}")
     res = run(f"conda {build} --no-anaconda-upload {build_args} {name}")
     if 'anaconda upload' not in res: return print(f"{res}\n\Failed. Check auto-upload not set in .condarc. Try `--do_build False`.")
-    loc = conda_output_path(lib_path, cfg.version)
     return anaconda_upload(lib_path, cfg.version)
 
 # Cell
