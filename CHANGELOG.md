@@ -2,6 +2,12 @@
 
 <!-- do not remove -->
 
+## 0.1.13
+
+### Bugs Squashed
+
+- can not find conda package to upload in some cases
+
 
 ## 0.1.10
 
