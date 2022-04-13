@@ -148,7 +148,7 @@ def fastrelease_conda_package(
     build_args:str='',  # Additional args (as str) to send to `conda build`
     skip_upload:store_true=False,  # Skip `anaconda upload` step
     mambabuild:store_true=False,  # Use `mambabuild` (requires `boa`)
-    upload_user:None=None  # Optional user to upload package to
+    upload_user:str=None  # Optional user to upload package to
 ):
     "Create a `meta.yaml` file ready to be built into a package, and optionally build and upload it"
     write_conda_meta(path)
