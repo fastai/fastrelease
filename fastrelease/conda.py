@@ -50,7 +50,7 @@ def as_posix(p):
     return Path(p).as_posix()
 
 # Cell
-def conda_output_path(name,ver):
+def conda_output_path(name):
     "Output path for conda build"
     return run(f'conda build --output {name}').strip()
 
@@ -131,12 +131,12 @@ def write_conda_meta(path='conda'):
     _write_yaml(path, *_get_conda_meta())
 
 # Cell
-def anaconda_upload(name, version, user=None, token=None, env_token=None):
-    "Update `name` `version` to anaconda"
+def anaconda_upload(name, user=None, token=None, env_token=None):
+    "Upload `name` to anaconda"
     user = f'-u {user} ' if user else ''
     if env_token: token = os.getenv(env_token)
     token = f'-t {token} ' if token else ''
-    loc = conda_output_path(name,version)
+    loc = conda_output_path(name)
     if not loc: raise Exception("Failed to find output")
     return run(f'anaconda {token} upload {user} {loc} --skip-existing', stderr=True)
 
@@ -156,7 +156,7 @@ def fastrelease_conda_package(
     out = f"Done. Next steps:\n```\ncd {path}\n"""
     name,lib_path = cfg.lib_name,cfg.lib_path
     os.chdir(path)
-    loc = conda_output_path(lib_path, cfg.version)
+    loc = conda_output_path(name)
     out_upl = f"anaconda upload {loc}"
     build = 'mambabuild' if mambabuild else 'build'
     if not do_build: return print(f"{out}conda {build} .\n{out_upl}\n```")
@@ -164,7 +164,7 @@ def fastrelease_conda_package(
     print(f"conda {build} --no-anaconda-upload {build_args} {name}")
     res = run(f"conda {build} --no-anaconda-upload {build_args} {name}")
     if 'anaconda upload' not in res: return print(f"{res}\n\Failed. Check auto-upload not set in .condarc. Try `--do_build False`.")
-    return anaconda_upload(lib_path, cfg.version)
+    return anaconda_upload(name)
 
 # Cell
 @call_parse
