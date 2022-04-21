@@ -52,7 +52,7 @@ def as_posix(p):
 # Cell
 def conda_output_path(name):
     "Output path for conda build"
-    return run(f'conda build --output {name}').strip()
+    return run(f'conda build --output {name}').strip().replace('\\', '/')
 
 # Cell
 def _pip_conda_meta(name, path):
