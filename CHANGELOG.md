@@ -2,6 +2,11 @@
 
 <!-- do not remove -->
 
+## 0.1.16
+
+### Bugs Squashed
+
+- Modify path sep on windows for conda upload
 
 
 ## 0.1.13
