@@ -4,10 +4,7 @@ __all__ = ['GH_HOST', 'find_config', 'FastRelease', 'fastrelease_changelog', 'fa
            'bump_version', 'fastrelease_bump_version']
 
 # Cell
-from fastcore.imports import *
-from fastcore.utils import *
-from fastcore.foundation import *
-from fastcore.script import *
+from fastcore.all import *
 from ghapi.core import *
 
 from datetime import datetime
